@@ -3,8 +3,6 @@ package buildMap;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -116,10 +114,11 @@ public class Gui extends JFrame implements ActionListener {
 		}
 		nodes.setModel(new DefaultComboBoxModel<String>(aux));
 		nodes.setSelectedIndex(0);
-		String lst = "";
+		//Imprimir lista de nodos
+		/*String lst = "";
 		for (int i = 0; i < aux.length; i++) {
 			lst += aux[i] + "\n";
-		}
+		}*/
 
 		// FileMethods.saveFile(lst, "NodeList", false);
 	}

@@ -381,7 +381,7 @@ public class Node {
 		Iterator<String> iterator;
 		HashMap<String, Float> auxMap = new HashMap<String, Float>();
 		ArrayList<HistoOrdered> histo = new ArrayList<HistoOrdered>();
-		ArrayList<Histogram> histof = new ArrayList<Histogram>();
+		//ArrayList<Histogram> histof = new ArrayList<Histogram>();
 
 		// ESTO DEBERIA CALCULARSE CON EL HISTOGRAMA MEDIO
 		// Se Calcula la media de los tags sin los pesos    //Revisar
@@ -395,7 +395,7 @@ public class Node {
 					auxMap.put(elem, img.getValue(elem) / images.size());
 			}
 		}
-		int ix =0;
+		//int ix =0;
 		iterator = auxMap.keySet().iterator();
 		while (iterator.hasNext()) {
 			//System.out.println(ix++);
@@ -578,11 +578,11 @@ public class Node {
 	}
 	
 	public CategoryDataset getDataset(){
-		
-		String text, elem, auxS;
+		String elem;
+		//String text,  auxS;
 		Iterator<String> iterator;
 		HashMap<String, Float> auxMap = new HashMap<String, Float>();
-		ArrayList<HistoOrdered> histo = new ArrayList<HistoOrdered>();
+		//ArrayList<HistoOrdered> histo = new ArrayList<HistoOrdered>();
 		
 		
 		   // create the dataset...

@@ -1,7 +1,5 @@
 package buildMap;
 
-import java.net.CookieHandler;
-
 // This Class manages points in any dimension
 class Point {
     int dim;

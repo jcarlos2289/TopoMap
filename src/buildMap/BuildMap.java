@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class BuildMap {
 	ArrayList<ImageTags> imgTags;
@@ -128,6 +127,7 @@ public class BuildMap {
 		double minDist, dist;
 		int cont=0;
 		Node auxNode, auxNode2;
+		@SuppressWarnings("unused")
 		boolean foundNode, foundEdge;
 		
 		// For the first image, create a node
