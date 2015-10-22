@@ -127,7 +127,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 				}
 			}
 		}
-		else{
+		//else{
 			if (gui.showCluster){
 				
 				int colors[][] = new int[gui.km.k][3];
@@ -194,7 +194,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 				
 			}
 			
-		}
+		//}
 	}
 	
 	public void showInfo (Node sel) {

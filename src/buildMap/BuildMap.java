@@ -12,6 +12,7 @@ public class BuildMap {
 	//float threshold3;
 	int cutNode;
 	Map map;
+	int sequenceLength;
 	
 	public void setThreshold1(double threshold1) {
 		this.threshold1 = threshold1;
@@ -33,17 +34,17 @@ public class BuildMap {
 		
 	}
 	
-	public void readTags (String base, double threshold) {
+	public void readTags (String base, double threshold, int seqLenght) {
 		String fileName;
 		FileReader fr=null;
 		BufferedReader br=null;
 		String line;
-		
+		sequenceLength = seqLenght;
 		// First, read the image coordinates files
 		double []xcoord, ycoord;
-		xcoord= new double[8128];
-		ycoord= new double[8128];
-		for (int i=0; i<8128; i++) {
+		xcoord= new double[sequenceLength+1];
+		ycoord= new double[sequenceLength+1];
+		for (int i=0; i<sequenceLength+1; i++) {
 			xcoord[i]=ycoord[i]=-1;
 		}
 		
@@ -74,7 +75,7 @@ public class BuildMap {
 		}
 		
 		// Process all the images and read the tags
-		for (int i=1; i<8128; i++) {
+		for (int i=1; i<sequenceLength+1; i++) {
 			fileName=base+i+".txt";
 			try {
 				itags=new ImageTags(fileName);
@@ -83,12 +84,12 @@ public class BuildMap {
 					itags.setCoords(xcoord[i], ycoord[i]);
 				}
 				else {
-					for (int j=i-2, k=i+1; j>0 || k<8127; j--, k++) {
+					for (int j=i-2, k=i+1; j>0 || k<sequenceLength; j--, k++) {
 						if (j>0 && xcoord[j]!=-1) {
 							itags.setCoords(xcoord[j], ycoord[j]);
 							break;
 						}
-						if (k<8127 && xcoord[k]!=-1) {
+						if (k<sequenceLength && xcoord[k]!=-1) {
 							itags.setCoords(xcoord[k], ycoord[k]);
 							break;
 						}
@@ -132,7 +133,7 @@ public class BuildMap {
 		
 		// For the first image, create a node
 		Node currentNode = map.createNode(imgTags.get(0));
-		for (int i=1; i<8127; i++) {
+		for (int i=1; i<sequenceLength; i++) {
 			cont++;
 			if ((cont%1000)==0) System.out.println("Processing img="+i);
 			// Find the closest node

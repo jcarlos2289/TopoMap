@@ -20,7 +20,7 @@ public class Gui extends JFrame implements ActionListener {
 	private CanvasMap cm;
 	int width = 1000, height = 900;
 	JButton process, clusterbt;
-	JCheckBox originalButton, graphButton, backButton, showNodes;
+	JCheckBox originalButton, graphButton, backButton, showNodes,clusters;
 	JTextField th1, th2, th3;
 	JComboBox<String> nodes;
 	double threshold1, threshold2;
@@ -28,6 +28,7 @@ public class Gui extends JFrame implements ActionListener {
 	boolean original = true, showMap = true, background = true,
 			mapGenerated = false, nodesMode = false, selectNodeChanged = false, showCluster = false;
 	int selectedNode = -1;
+	
 	BuildMap bm;
 	Kmeans km;
 
@@ -37,9 +38,8 @@ public class Gui extends JFrame implements ActionListener {
 		cutNode = 20;
 		bm = new BuildMap(threshold1, threshold2, cutNode);
 		// bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
-		bm.readTags(
-				"/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces/NewCollege_",
-				0.000000001);
+		bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces/NewCollege_",0.000000001,8127);
+		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces/NewCollege_",0.000000001);
 
 		getContentPane().setLayout(new BorderLayout());
 		setSize(width, height);
@@ -76,6 +76,13 @@ public class Gui extends JFrame implements ActionListener {
 		backButton.setSelected(true);
 		backButton.addActionListener(this);
 		jp.add(backButton);
+		
+		clusters = new JCheckBox("ShowCluster");
+		clusters.setSelected(false);
+		clusters.setEnabled(false);
+		clusters.addActionListener(this);
+		jp.add(clusters);
+		
 		JLabel lab1 = new JLabel("Threshold1");
 		jp.add(lab1);
 		th1 = new JTextField(String.valueOf(threshold1));
@@ -151,13 +158,15 @@ public class Gui extends JFrame implements ActionListener {
 			int k =Integer.parseInt( JOptionPane.showInputDialog("How many clusters?","4"));
 			km= new Kmeans(k, 205, bm.imgTags);
 			km.findMeans();
-			mapGenerated = false;
+			//mapGenerated = false;
 			showCluster=true;
+			clusters.setEnabled(true);
+			clusters.setSelected(true);
 			cm.repaint();
 			return;
 		}
 		if (e.getSource() == originalButton) {
-			showCluster = false;
+			//showCluster = false;
 			original = originalButton.isSelected();
 			cm.repaint();
 			return;
@@ -172,6 +181,13 @@ public class Gui extends JFrame implements ActionListener {
 			cm.repaint();
 			return;
 		}
+		
+		if (e.getSource() == clusters) {
+			showCluster = clusters.isSelected();
+			cm.repaint();
+			return;
+		}
+		
 		if (e.getSource() == th1) {
 			threshold1 = Double.parseDouble(th1.getText());
 			bm.setThreshold1(threshold1);

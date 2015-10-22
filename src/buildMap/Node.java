@@ -193,8 +193,8 @@ public class Node {
 					while (iterator.hasNext()) {
 						elem = iterator.next(); // The first element is added  and multiply by the first weight, to reset all the elements in the hash
 						histoMean.put(elem, images.get(0).tags.get(elem) * weights[0] / sumWeights);
-						histoVariance.put(elem,(float) (Math.pow(images.get(0).tags.get(elem)  - histoMean.get(elem), 2))* weights[0]/ sumWeights);
-						histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
+						//histoVariance.put(elem,(float) (Math.pow(images.get(0).tags.get(elem)  - histoMean.get(elem), 2))* weights[0]/ sumWeights);
+						//histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
 						
 						//add the last value
 						/*histoMean.put(elem, histoMean.get(elem) +  images.get(n-1).tags.get(elem) * weights[0] / n);
@@ -212,14 +212,73 @@ public class Node {
 							if (histoMean.get(elem) != null) { // the tag is present in the hash
 								if (i < weights.length) {
 									histoMean.put(elem, histoMean.get(elem) + (it.tags.get(elem) * weights[i] / sumWeights));
+									//histoVariance.put(elem,(float) (histoVariance.get(elem) + Math.pow(images.get(i).tags.get(elem)  - histoMean.get(elem), 2)* weights[i]/ sumWeights));
+									//histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
+								} else if (i > images.size() - weights.length) {
+									histoMean.put(elem,histoMean.get(elem) + (it.tags.get(elem) * weights[(n - 1) - i] / sumWeights));
+									//histoVariance.put(elem, (float) (histoVariance.get(elem) + Math.pow(images.get(i).tags.get(elem)  - histoMean.get(elem), 2)* weights[(n - 1) - i]/ sumWeights));
+									//histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
+								} else {
+									histoMean.put(elem, histoMean.get(elem) + (it.tags.get(elem) / sumWeights));
+									//histoVariance.put(elem,	(float) (histoVariance.get(elem) + Math.pow(images.get(i).tags.get(elem)  - histoMean.get(elem), 2)/ sumWeights));
+									//histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
+								}
+							} else { // The actual tag don't exits in the hash,so we add
+								// Deberia hacer una comprobacion similar a la
+								// de arriba para que tome en cuenta los
+								// pesos?-------------------------------------------------
+								if (i < weights.length) {
+									histoMean.put(elem, (it.tags.get(elem) * weights[i] / sumWeights));
+									//histoVariance.put(elem,	(float) (Math.pow(images.get(i).tags.get(elem)  - histoMean.get(elem), 2)* weights[i]/ sumWeights));
+									//histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
+								} else if (i > images.size() - weights.length) {
+									histoMean.put(elem, (it.tags.get(elem) * weights[(n - 1) - i] / sumWeights));
+									//histoVariance.put(elem, (float) (Math.pow(images.get(i).tags.get(elem)  - histoMean.get(elem),2) * weights[(n - 1) - i]/ sumWeights));
+									//histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
+								} else {
+									// original
+									histoMean.put(elem, it.tags.get(elem)/ sumWeights);
+									//histoVariance.put(elem,(float) (Math.pow(images.get(i).tags.get(elem) - histoMean.get(elem), 2))/ sumWeights);
+									//histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
+								}
+							}
+						}
+					}//end for calculo media
+					
+					
+					// solo para varianza
+					
+					iterator = images.get(0).getKeys().iterator();
+					while (iterator.hasNext()) {
+						elem = iterator.next(); // The first element is added  and multiply by the first weight, to reset all the elements in the hash
+						//histoMean.put(elem, images.get(0).tags.get(elem) * weights[0] / sumWeights);
+						histoVariance.put(elem,(float) (Math.pow(images.get(0).tags.get(elem)  - histoMean.get(elem), 2))* weights[0]/ sumWeights);
+						histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
+						
+						//add the last value
+						/*histoMean.put(elem, histoMean.get(elem) +  images.get(n-1).tags.get(elem) * weights[0] / n);
+						histoVariance.put(elem,(float) (histoVariance.get(elem) + Math.pow(images.get(0).tags.get(elem) * weights[0] - histoMean.get(elem), 2))/ images.size());
+						histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));*/
+						
+						//actualizar
+						}
+					//ImageTags it;
+					for (int i = 1; i < n; i++) {
+						it = images.get(i);
+						iterator = it.getKeys().iterator();
+						while (iterator.hasNext()) {
+							elem = iterator.next();
+							if (histoVariance.get(elem) != null) { // the tag is present in the hash
+								if (i < weights.length) {
+									//histoMean.put(elem, histoMean.get(elem) + (it.tags.get(elem) * weights[i] / sumWeights));
 									histoVariance.put(elem,(float) (histoVariance.get(elem) + Math.pow(images.get(i).tags.get(elem)  - histoMean.get(elem), 2)* weights[i]/ sumWeights));
 									histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
 								} else if (i > images.size() - weights.length) {
-									histoMean.put(elem,histoMean.get(elem) + (it.tags.get(elem) * weights[(n - 1) - i] / sumWeights));
+									//histoMean.put(elem,histoMean.get(elem) + (it.tags.get(elem) * weights[(n - 1) - i] / sumWeights));
 									histoVariance.put(elem, (float) (histoVariance.get(elem) + Math.pow(images.get(i).tags.get(elem)  - histoMean.get(elem), 2)* weights[(n - 1) - i]/ sumWeights));
 									histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
 								} else {
-									histoMean.put(elem, histoMean.get(elem) + (it.tags.get(elem) / sumWeights));
+								//	histoMean.put(elem, histoMean.get(elem) + (it.tags.get(elem) / sumWeights));
 									histoVariance.put(elem,	(float) (histoVariance.get(elem) + Math.pow(images.get(i).tags.get(elem)  - histoMean.get(elem), 2)/ sumWeights));
 									histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
 								}
@@ -228,22 +287,23 @@ public class Node {
 								// de arriba para que tome en cuenta los
 								// pesos?-------------------------------------------------
 								if (i < weights.length) {
-									histoMean.put(elem, (it.tags.get(elem) * weights[i] / sumWeights));
+									//histoMean.put(elem, (it.tags.get(elem) * weights[i] / sumWeights));
 									histoVariance.put(elem,	(float) (Math.pow(images.get(i).tags.get(elem)  - histoMean.get(elem), 2)* weights[i]/ sumWeights));
 									histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
 								} else if (i > images.size() - weights.length) {
-									histoMean.put(elem, (it.tags.get(elem) * weights[(n - 1) - i] / sumWeights));
+								//	histoMean.put(elem, (it.tags.get(elem) * weights[(n - 1) - i] / sumWeights));
 									histoVariance.put(elem, (float) (Math.pow(images.get(i).tags.get(elem)  - histoMean.get(elem),2) * weights[(n - 1) - i]/ sumWeights));
 									histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
 								} else {
 									// original
-									histoMean.put(elem, it.tags.get(elem)/ sumWeights);
+								//	histoMean.put(elem, it.tags.get(elem)/ sumWeights);
 									histoVariance.put(elem,(float) (Math.pow(images.get(i).tags.get(elem) - histoMean.get(elem), 2))/ sumWeights);
 									histoStanDev.put(elem, (float) Math.sqrt(histoVariance.get(elem)));
 								}
 							}
 						}
-					}
+					}//end for calculo media
+					
 					for (int i = 0; i < n; i++) {
 						xmedian[i] = images.get(i).xcoord;
 						ymedian[i] = images.get(i).ycoord;
@@ -340,34 +400,7 @@ public class Node {
 		return (float) Math.sqrt(dist);
 	}
 
-	// public double distance (HashMap<String, Float> histoMean, ImageTags t2) {
-	// float dist=0.0f;
-	// String elem;
-	// Set<String> hs1;
-	// Object[] hs2;
-	// Iterator<String> iterator;
-	//
-	// hs2=t2.getKeys().toArray();
-	// hs1=histoMean.keySet();
-	// iterator = hs1.iterator();
-	// while(iterator.hasNext()) {
-	// elem = iterator.next();
-	// dist += Math.pow(histoMean.get(elem)-t2.getValue(elem), 2.0);
-	// for (int i=0; i< hs2.length; i++) { // this is for the situation that in
-	// the second tags there is a tag not present in the first
-	// if (hs2[i]!=null && ((String)hs2[i]).equals(elem)) {
-	// hs2[i]=null;
-	// break;
-	// }
-	// }
-	// }
-	// for (int i=0; i<hs2.length; i++) {
-	// if (hs2[i]!=null)
-	// dist += Math.pow(t2.getValue((String)hs2[i]), 2.0);
-	// }
-	//
-	// return (float)Math.sqrt(dist);
-	// }
+
 	public double distance(ImageTags img) {
 		if (!useHisto)
 			return distance(img, representative);
@@ -527,22 +560,27 @@ public class Node {
 		}
 
 		text += "<table border=\"1\">";
-		text += "<tr> <th>#</th><th>Tag</th><th>Mean</th><th>Variance</th><th>Standard Deviation</th>   </tr>";
+		text += "<tr> <th>#</th><th>Tag</th><th>Mean</th><th>Variance</th><th>Standard Deviation</th> <th>CV</th>  </tr>";
 
 		// sort by the stand deviation
 		int g = 1;
+		float sumCV = 0;
 		for (Entry<String, Float> e : sortedByValue.entrySet()) { // sort by the StandDeviation
+			
+			float CV  = e.getValue()/ histoMean.get(e.getKey());
+			sumCV += CV;
+			
 			text += "<tr> <td>"+String.valueOf(g) +"</td><td>" + e.getKey() + "</td><td>" + histoMean.get(e.getKey()) + "</td><td>"
-					+ histoVariance.get(e.getKey()).toString() + "</td><td>" + e.getValue().toString() + "</td></tr>";
+					+ histoVariance.get(e.getKey()).toString() + "</td><td>" + e.getValue().toString() + "</td><td> "+ CV  +"   </td> </tr>";
 			++g;
 		}
 		
 		
 
-		text += "<tr> <td colspan = \"3\"> Node Variance</td><td>" + String.valueOf(nodeVariance)+ "</td><td>----</td></tr>";
+		text += "<tr> <td colspan = \"3\"> Node Variance</td><td>" + String.valueOf(nodeVariance)+ "</td><td>Node CV</td><td>" + sumCV+  " </td></tr>";
 		text += "</table>";
 		text += "\n</html>";
-		//System.out.println(text);
+	//	System.out.println(text);
 
 		//
 
