@@ -3,6 +3,7 @@ package buildMap;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -34,6 +35,7 @@ public class Gui extends JFrame implements ActionListener {
 	
 	BuildMap bm;
 	Kmeans km;
+	String name ;
 
 	public Gui() {
 		threshold1 = 2;
@@ -41,7 +43,12 @@ public class Gui extends JFrame implements ActionListener {
 		cutNode = 20;
 		bm = new BuildMap(threshold1, threshold2, cutNode);
 		// bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
+		
+		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegeTags_Clarifai/PanoStitchOutput_LisaNewCollegeNov3_",0.000000001,8127,"output.data",20);
+		
+		
 		bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205);
+		name = "NewCollege_PlacesAlexNet";
 		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001);
 
 		getContentPane().setLayout(new BorderLayout());
@@ -163,7 +170,7 @@ public class Gui extends JFrame implements ActionListener {
 		if (e.getSource() == clusterbt) {
 		    // Kmeans
 			int k =Integer.parseInt( JOptionPane.showInputDialog("How many clusters?","4"));
-			km= new Kmeans(k, 205, bm.imgTags);
+			km= new Kmeans(k, bm.dimension, bm.imgTags);
 			km.findMeans();
 			//mapGenerated = false;
 			showCluster=true;
@@ -176,7 +183,7 @@ public class Gui extends JFrame implements ActionListener {
 		
 		if (e.getSource() == clusterCoefBt) {
 			Kmeans km2;
-			km2 = new Kmeans(1,6, bm.imgTags);
+			km2 = new Kmeans(1,bm.dimension, bm.imgTags);
 			ArrayList<Float> coef = new ArrayList<Float>();
 			int k=1; 
 			
@@ -186,7 +193,7 @@ public class Gui extends JFrame implements ActionListener {
 				++k;
 				if ((k%100)==0) System.out.println("K="+k);
 			}
-			while(k<1001);
+			while(k<501);
 			
 			
 			
@@ -209,7 +216,12 @@ public class Gui extends JFrame implements ActionListener {
 			
 			//JOptionPane.showMessageDialog(this, scroll);
 			
-			DrawLineChart.viewChart(coef);
+			try {
+				DrawLineChart.viewChart(coef,name);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 				
 			
 			
