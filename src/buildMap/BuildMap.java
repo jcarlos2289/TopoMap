@@ -13,7 +13,7 @@ public class BuildMap {
 	int cutNode;
 	Map map;
 	int sequenceLength;
-	
+	int dimension = 0;
 	public void setThreshold1(double threshold1) {
 		this.threshold1 = threshold1;
 	}
@@ -34,11 +34,12 @@ public class BuildMap {
 		
 	}
 	
-	public void readTags (String base, double threshold, int seqLenght) {
+	public void readTags (String base, double threshold, int seqLenght, String dataPath, int dim ) {
 		String fileName;
 		FileReader fr=null;
 		BufferedReader br=null;
 		String line;
+		dimension = dim;
 		sequenceLength = seqLenght;
 		// First, read the image coordinates files
 		double []xcoord, ycoord;
@@ -49,7 +50,8 @@ public class BuildMap {
 		}
 		
 		try {
-			fr = new FileReader (new File ("output.data"));
+			//fr = new FileReader (new File ("IDOL_DUMBO_Cl1.txt"));
+			fr = new FileReader (new File (dataPath));
 			br = new BufferedReader(fr);
 			// The first line is the name of the file, ignored
 			line = br.readLine();
@@ -150,8 +152,7 @@ public class BuildMap {
 				}
 			}
 			dist = currentNode.distance(imgTags.get(i));
-
-			
+			FileMethods.saveFile(String.valueOf(dist)+"\n","Distancias", true);	
 
 			if (dist<threshold2) {
 				currentNode.add(imgTags.get(i));

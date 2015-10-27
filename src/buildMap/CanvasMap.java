@@ -163,7 +163,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 				
 				
 				
-				int c = 0;
+			/*	int c = 0;
 				for (Point point : gui.km.means) {
 					
 					g.setColor(new Color(colors[c][0],colors[c][1],colors[c][2]));
@@ -176,7 +176,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 					//System.out.println("X = " + point.xcoord +" y = " + point.ycoord);
 					//System.out.println("X = " + x +" y = " + y);
 			     
-				}
+				}*/
 				
 				
 				g.setColor(new Color(0,0,255));

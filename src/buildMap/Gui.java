@@ -3,6 +3,9 @@ package buildMap;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -19,7 +22,7 @@ public class Gui extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -7457350242559078527L;
 	private CanvasMap cm;
 	int width = 1000, height = 900;
-	JButton process, clusterbt;
+	JButton process, clusterbt, clusterCoefBt;
 	JCheckBox originalButton, graphButton, backButton, showNodes,clusters;
 	JTextField th1, th2, th3;
 	JComboBox<String> nodes;
@@ -38,8 +41,8 @@ public class Gui extends JFrame implements ActionListener {
 		cutNode = 20;
 		bm = new BuildMap(threshold1, threshold2, cutNode);
 		// bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
-		bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces/NewCollege_",0.000000001,8127);
-		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces/NewCollege_",0.000000001);
+		bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205);
+		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001);
 
 		getContentPane().setLayout(new BorderLayout());
 		setSize(width, height);
@@ -62,6 +65,10 @@ public class Gui extends JFrame implements ActionListener {
 		clusterbt = new JButton("Gen Clus");
 		clusterbt.addActionListener(this);
 		jp.add(clusterbt);
+		
+		clusterCoefBt = new JButton("ClusCoef");
+		clusterCoefBt.addActionListener(this);
+		jp.add(clusterCoefBt);
 
 		originalButton = new JCheckBox("Original Map");
 		originalButton.setSelected(true);
@@ -165,6 +172,53 @@ public class Gui extends JFrame implements ActionListener {
 			cm.repaint();
 			return;
 		}
+		
+		
+		if (e.getSource() == clusterCoefBt) {
+			Kmeans km2;
+			km2 = new Kmeans(1,6, bm.imgTags);
+			ArrayList<Float> coef = new ArrayList<Float>();
+			int k=1; 
+			
+			do {
+				km2.setK(k);
+				coef.add(km2.findMeansCoef()); 
+				++k;
+				if ((k%100)==0) System.out.println("K="+k);
+			}
+			while(k<1001);
+			
+			
+			
+			FileMethods.saveFile("K\tVariance\n", "K_Variances", false);
+			String  dataResults="";
+			
+			
+			dataResults+="K\tVariance\n";
+			int h = 1;
+			for (Iterator<Float> iterator = coef.iterator(); iterator.hasNext();++h) {
+				Float coefValue =  iterator.next();
+				FileMethods.saveFile(String.valueOf(h)+"\t"+String.valueOf(coefValue)+"\n", "K_Variances", true);
+				dataResults+= String.valueOf(h)+"\t"+String.valueOf(coefValue)+"\n";
+				
+			}
+			System.out.println(dataResults);
+			//JTextArea  jtA = new JTextArea();
+			//jtA.setText(dataResults);
+			//JScrollPane scroll=new JScrollPane(jtA);
+			
+			//JOptionPane.showMessageDialog(this, scroll);
+			
+			DrawLineChart.viewChart(coef);
+				
+			
+			
+			return;
+		}
+		
+			
+		
+		
 		if (e.getSource() == originalButton) {
 			//showCluster = false;
 			original = originalButton.isSelected();
