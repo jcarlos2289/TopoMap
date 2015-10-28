@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -54,17 +55,18 @@ public class DrawLineChart {
 
 	
 		 final ChartPanel chartPanel = new ChartPanel(linealChart);
-	     chartPanel.setPreferredSize(new Dimension(500, 270));
+	       chartPanel.setPreferredSize(new Dimension(1920, 1080));
 	        
-	     JFrame graf = new JFrame("Lineal Chart");
-         graf.setContentPane(chartPanel);
-         graf.setSize(700, 400);
-         graf.setVisible(true);
-		
-        //String title = name+".png" ;
-        
-        File fileChart = new File( "resultados/"+name+".png" );
-         ChartUtilities.saveChartAsPNG(fileChart , linealChart , 1000 , 750 );
+	       File fileChart = new File("resultados/" + name + ".png");
+	       ChartUtilities.saveChartAsPNG(fileChart, linealChart, 1920, 1080);
+	               
+	         
+	        JFrame graf = new JFrame("Lineal Chart");
+	        graf.setContentPane(chartPanel);
+	        graf.setSize(1300, 732);
+	        graf.setLocationRelativeTo(null);
+	        graf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//  EXIT_ON_CLOSE);
+	        graf.setVisible(true);
 		
 	}
 	
