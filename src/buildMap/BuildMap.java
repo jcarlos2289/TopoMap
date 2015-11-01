@@ -124,7 +124,7 @@ public class BuildMap {
 	}
 	
 	public void buildMap () {
-		FileMethods.saveFile("Th1= "+threshold1+" Th2= " +threshold2+" CN= "+ cutNode+"------\n", "Distancias", true);	
+		//FileMethods.saveFile("Th1= "+threshold1+" Th2= " +threshold2+" CN= "+ cutNode+"------\n", "Distancias", true);	
 		map = new Map();
 		map.setWeights(cutNode);
 		double minDist, dist;

@@ -8,11 +8,15 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -30,7 +34,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 	double zoomFactor=2.8;
 	double xdesp, ydesp;
 	int radius=10;
-	JDialog tags=null, nodeInfo=null, graf=null;
+	JDialog tags=null, nodeInfo=null, graf=null, top =null;
 	
 	public CanvasMap (Gui ig) {
 		img2 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("newcollege.jpg"));
@@ -104,9 +108,11 @@ public class CanvasMap extends JPanel implements MouseListener {
 						 tags.dispose();
 	                     nodeInfo.dispose();
 	                     graf.dispose();
+	                     top.dispose();
 	                     tags=null;
 	                     nodeInfo=null;
 	                     graf=null;
+	                     top=null;
 					}
 					showInfo(selectn);
 					gui.selectNodeChanged=false;
@@ -198,8 +204,8 @@ public class CanvasMap extends JPanel implements MouseListener {
 	}
 	
 	public void showInfo (Node sel) {
-		JLabel textArea;
-		JScrollPane scroll;
+		JLabel textArea, presenceData;
+		JScrollPane scroll, scroll2;
 		
 		gui.selectedNode=gui.bm.map.nodes.indexOf(sel);
 		gui.showNodes.setSelected(true);
@@ -224,6 +230,13 @@ public class CanvasMap extends JPanel implements MouseListener {
 		nodeInfo.setVisible(true);
 		//FileMethods.saveFile(sel.getNodesContent(), "Node_"+String.valueOf(gui.bm.map.nodes.indexOf(sel)), false);
 		createChart(sel);
+		
+		presenceData = new JLabel(sel.getTop10());
+		scroll2 = new JScrollPane(presenceData);
+		top = new JDialog(gui);
+		top.add(scroll2);
+		top.setSize(450, 300);
+		top.setVisible(true);
 		
 	}
 	
@@ -281,10 +294,12 @@ public class CanvasMap extends JPanel implements MouseListener {
 				tags.dispose();
 				nodeInfo.dispose();
 				graf.dispose();
+				top.dispose();
 				gui.nodes.setSelectedIndex(0);
 				tags=null;
 				nodeInfo=null;
 				graf=null;
+				top=null;
 			}
 			for (Node n:gui.bm.map.nodes) {
 				if (distance(evt, n) < radius) {
@@ -310,4 +325,50 @@ public class CanvasMap extends JPanel implements MouseListener {
 	}
 	public void mouseExited(MouseEvent e) {
 	}
+
+public void showNodeDetails() {
+		// TODO Auto-generated method stub
+		
+		String text = "<html>\n";
+		
+		text += "<table border=\"1\"   style=\"font-size:8px\"    >";
+		text += "<tr><th>Node</th>";
+		for(int i = 0;i < 10; ++i )
+			text+="<th>Tag "+ String.valueOf(i+1)+ "</th>";
+		text +="</tr>\n";
+			
+		int h = 0;
+		for (Iterator<Node> iterator = gui.bm.map.nodes.iterator(); iterator.hasNext();) {
+			Node node =  iterator.next();
+			ArrayList<String> nodetags = node.getTop10Nodes();
+			text +="<tr>";
+			text +="<td>" + ++h +"</td>";
+			for (String tag : nodetags) {
+				text +="<td>"+tag +"</td>";
+			}
+			text +="</tr>\n";
+		}
+		
+		text += "</table>";
+		text += "\n</html>";
+		
+		JDialog message = new JDialog(gui);
+		message.setSize(450, 300);
+		
+		JLabel dat = new JLabel(text);
+		JScrollPane scroll = new JScrollPane(dat);
+		message.setTitle("Top10 Nodes Tags");
+		message.setContentPane(scroll);
+		message.setVisible(true);
+		
+		
+		
+		
+		
+		
+	}
+
+
+
+	
 }

@@ -339,13 +339,6 @@ public class Node {
 		}
 		
 	
-		
-		
-		
-	/*	while (varIter.hasNext()) {
-			variance = varIter.next();
-			nodeVariance += variance.getValue();
-		}*/
 
 	}
 
@@ -400,7 +393,49 @@ public class Node {
 		return (float) Math.sqrt(dist);
 	}
 
+	
+	public double x2(HashMap<String, Float> histo, ImageTags t2) {
+		float dist = 0.0f;
+		String elem;
+		Set<String> hs1;
+		Iterator<String> iterator;
 
+		hs1 = histo.keySet();
+		iterator = hs1.iterator();
+		while (iterator.hasNext()) {
+			elem = iterator.next();
+			if (t2.exists(elem)) {
+				dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0)/(histo.get(elem) + t2.getValue(elem));
+									
+			}
+		}
+		return (float) dist;
+	}
+	
+	
+	
+	public double kullback(HashMap<String, Float> histo, ImageTags t2) {
+		float dist = 0.0f;
+		String elem;
+		Set<String> hs1;
+		Iterator<String> iterator;
+
+		hs1 = histo.keySet();
+		iterator = hs1.iterator();
+		while (iterator.hasNext()) {
+			elem = iterator.next();
+			if (t2.exists(elem)) {
+				dist +=(histo.get(elem) - t2.getValue(elem))* Math.log(histo.get(elem)/ t2.getValue(elem));
+									
+			}
+		}
+		return (float) dist;
+	}
+	
+
+	
+	
+	
 	public double distance(ImageTags img) {
 		if (!useHisto)
 			return distance(img, representative);
@@ -516,8 +551,150 @@ public class Node {
 		//System.out.println(text);
 		return text;
 	}
+	public String getTop10(){
+		String text = "<html>\n";
+		//order the histoMean
+		ArrayList<String> mean10 = new ArrayList<String>();
+		LinkedHashMap<String, Float> sortedByValue = orderHashMap(histoMean, true);
+		HashMap<String,Float> presenceData = new HashMap<String,Float>();
+		
+		int h = 0;
+		for(Entry<String, Float> e : sortedByValue.entrySet()){
+			mean10.add(e.getKey());
+			if(++h ==10) 
+				break;
+			
+		}
+		
+		ImageTags imagesAux;
+		LinkedHashMap<String, Float> orderImageTags;
+		// int imgSize = images.size();
+		for (int i = 0; i < images.size(); ++i) {
+			imagesAux = images.get(i);
+			HashMap<String, Float> datAux = new HashMap<String, Float>();
+			datAux.putAll(imagesAux.tags);
+			orderImageTags = orderHashMap(datAux, true);
+			
+			int j = 0;
+			ArrayList<String> mean10Image = new ArrayList<String>();
+			for(Entry<String, Float> e : orderImageTags.entrySet()){
+				mean10Image.add(e.getKey());
+				if(++j ==10) 
+					break;
+				
+			}
+			presenceData.put(imagesAux.imageName, getTagPresence(mean10, mean10Image));
+					
+		}
+		int p = 10;
+	for (int i = 0; i< mean10.size(); i++) {
+		text += "<span><font size=\"";
+		text += (int) (--p);
+		text += "\">" + mean10.get(i) + "</font> </span><br>";
+	}	
+		text+="<br><br><br>";
+		
+		
+		text += "<table border=\"1\">";
+		text += "<tr> <th>#</th><th>ImageName</th><th>Top10 (%)</th></tr>";
+		
+		
+		int g =1;
+		int acum = 0;
+		
+	
+		
+		for(Entry<String, Float> e : presenceData.entrySet()){
+			
+			text += "<tr> <td>"+String.valueOf(g) +"</td><td>" 
+		                        + e.getKey() + "</td><td>"; 
+		                        if(e.getValue() > 6)
+		                        	text += "<b>" +String.valueOf((e.getValue()*10)) + "</b></td></tr>";
+		                        	else
+		                        		text += String.valueOf((e.getValue()*10)) + "</td></tr>";
+					            
+		                    
+			++g;
+			acum += e.getValue();
+		}
+		
+		float top = acum/images.size() *10;
+		
+		text += "<tr> <td colspan = \"2\"> Node Top10</td><td><b>" + String.valueOf(top)+ "</b></td></tr>";
+		text += "</table>";
+		text += "\n</html>";
+		
+		return text;
+		
+		
+		
+		
+	}
+	
+	public ArrayList<String> getTop10Nodes(){
+		
+		//order the histoMean
+		ArrayList<String> mean10 = new ArrayList<String>();
+		LinkedHashMap<String, Float> sortedByValue = orderHashMap(histoMean, true);
+		
+		
+		int h = 0;
+		for(Entry<String, Float> e : sortedByValue.entrySet()){
+			mean10.add(e.getKey());
+			if(++h ==10) 
+				break;
+			
+		}
+		
+		
+		return mean10;
+				
+		
+	}
+	
+	
+	private float getTagPresence(ArrayList<String> pattern, ArrayList<String> surface ){
+		int found = 0;
+		
+		for (Iterator<String> iterator = pattern.iterator(); iterator.hasNext();) {
+			String data = iterator.next();
+			if (surface.contains(data)) ++found;
+			}
+		return (float)found;
+	}
+		
+	private LinkedHashMap<String, Float> orderHashMap(HashMap<String,Float> hashData, boolean descendant){
+		Set<Entry<String, Float>> entries = hashData.entrySet();
+		Comparator<Entry<String, Float>> valueComparator = new Comparator<Entry<String, Float>>() {
+			@Override
+			public int compare(Entry<String, Float> e1, Entry<String, Float> e2) {
+				Float v1 = e1.getValue();
+				Float v2 = e2.getValue();
+				if(descendant)
+				return v2.compareTo(v1);
+				else
+					return v1.compareTo(v2);
+							
+			}
+		};
 
-	public String getNodeInfo(ArrayList<Edge> edges, ArrayList<Node> nodes) {
+		// Sort method needs a List, so let's first convert Set to List in Java
+		List<Entry<String, Float>> listOfEntries = new ArrayList<Entry<String, Float>>(entries);
+
+		// sorting HashMap by values using comparator
+		Collections.sort(listOfEntries, valueComparator);
+
+		LinkedHashMap<String, Float> sortedByValue = new LinkedHashMap<String, Float>(listOfEntries.size());
+
+		// copying entries from List to Map
+		for (Entry<String, Float> entry : listOfEntries) {
+			sortedByValue.put(entry.getKey(), entry.getValue());
+		}
+		return sortedByValue;
+				
+	}
+	
+		public String getNodeInfo(ArrayList<Edge> edges, ArrayList<Node> nodes) {
 		String text = "<html>\n";
 		String[] split;
 
@@ -580,37 +757,7 @@ public class Node {
 		text += "<tr> <td colspan = \"3\"> Node Variance</td><td>" + String.valueOf(nodeVariance)+ "</td><td>Node CV</td><td>" + sumCV+  " </td></tr>";
 		text += "</table>";
 		text += "\n</html>";
-	//	System.out.println(text);
-
-		//
-
-		/*
-		 * String nodeInfo=""; ImageTags imagesAux; //int imgSize =
-		 * images.size(); for (int i = 0; i < images.size(); ++i) { imagesAux =
-		 * images.get(i); Iterator<String> keyAux =
-		 * imagesAux.getKeys().iterator(); while (keyAux.hasNext()) { String key
-		 * = keyAux.next(); if (imagesAux.tags.get(key) != null) { // the actual
-		 * tag is present in the hashMap nodeInfo +="\t"+ key+" "
-		 * +imagesAux.getValue(key); } else // the tag isn't in the hashMap
-		 * nodeInfo += "\t"+key+" ?"; } nodeInfo +="\n"; }
-		 */
-
-		/*
-		 * ImageTags imagesAux2; imagesAux2 = images.get(0); Iterator<String>
-		 * keyAux2 = imagesAux2.getKeys().iterator(); while (keyAux2.hasNext())
-		 * { String key = keyAux2.next(); nodeInfo += key+"\t"; for (int i = 0;
-		 * i < images.size(); ++i) { imagesAux2= images.get(i); if
-		 * (imagesAux2.tags.get(key) != null) { // the actual tag is present in
-		 * the hashMap nodeInfo +="\t"+imagesAux2.getValue(key); } else // the
-		 * tag isn't in the hashMap nodeInfo += "\t?"; } nodeInfo +="\n"; }
-		 * 
-		 * 
-		 * FileMethods.saveFile(nodeInfo,
-		 * "NodeVarance_"+String.valueOf(nodeVariance));
-		 * 
-		 * 
-		 */
-
+	
 		return text;
 
 	}

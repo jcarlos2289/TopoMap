@@ -47,8 +47,12 @@ public class Gui extends JFrame implements ActionListener {
 		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegeTags_Clarifai/PanoStitchOutput_LisaNewCollegeNov3_",0.000000001,8127,"output.data",20);
 		
 		
-		bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205);
-		name = "NewCollege_PlacesAlexNet";
+		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205);
+		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegeMerge_Hybrid/NewCollege_",0.000000001,8127,"output.data",1183);
+		bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces_GoogLeNet/NewCollege_",0.000000001,8127,"output.data",205);
+		
+		
+		name = "NewCollege_PlacesGoogLeNet";
 		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001);
 
 		getContentPane().setLayout(new BorderLayout());
@@ -165,6 +169,7 @@ public class Gui extends JFrame implements ActionListener {
 			genComboNodes();
 			mapGenerated = true;
 			cm.repaint();
+			cm.showNodeDetails();
 			return;
 		}
 		if (e.getSource() == clusterbt) {
@@ -193,11 +198,11 @@ public class Gui extends JFrame implements ActionListener {
 				++k;
 				if ((k%100)==0) System.out.println("K="+k);
 			}
-			while(k<501);
+			while(k<=800);
 			
 			
-			
-			FileMethods.saveFile("K\tVariance\n", "K_Variances", false);
+			//---------------------------------------------------------------------------------------kitar el 2k
+			FileMethods.saveFile("K;s2\n", "K_Variances_"+name, false);
 			String  dataResults="";
 			
 			
@@ -205,7 +210,7 @@ public class Gui extends JFrame implements ActionListener {
 			int h = 1;
 			for (Iterator<Float> iterator = coef.iterator(); iterator.hasNext();++h) {
 				Float coefValue =  iterator.next();
-				FileMethods.saveFile(String.valueOf(h)+"\t"+String.valueOf(coefValue)+"\n", "K_Variances", true);
+				FileMethods.saveFile(String.valueOf(h)+";"+String.valueOf(coefValue)+"\n", "K_Variances_"+name, true);
 				dataResults+= String.valueOf(h)+"\t"+String.valueOf(coefValue)+"\n";
 				
 			}

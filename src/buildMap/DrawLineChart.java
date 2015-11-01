@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -65,7 +64,7 @@ public class DrawLineChart {
 	        graf.setContentPane(chartPanel);
 	        graf.setSize(1300, 732);
 	        graf.setLocationRelativeTo(null);
-	        graf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//  EXIT_ON_CLOSE);
+	        //graf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//  EXIT_ON_CLOSE);
 	        graf.setVisible(true);
 		
 	}
