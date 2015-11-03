@@ -378,21 +378,37 @@ public class Node {
 		String elem;
 		Set<String> hs1;
 		Iterator<String> iterator;
-
+		HashMap<String,Float> w = new HashMap<String,Float>();
+		float wSum = 0;
+		
+		//for
+		for (Entry<String, Float> entry : histoStanDev.entrySet()) {
+			w.put(entry.getKey(),1-2* entry.getValue());
+			wSum += w.get(entry.getKey());
+		}
+		
 		hs1 = histo.keySet();
 		iterator = hs1.iterator();
 		while (iterator.hasNext()) {
 			elem = iterator.next();
 			if (t2.exists(elem)) {
-				if(histoStanDev.get(elem)== 0)			
-				dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0);
-				else
-					dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0)/histoStanDev.get(elem);
+				//if(histoStanDev.get(elem)== 0)			
+			//	dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0);
+			//	else
+					//dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0)/histoStanDev.get(elem);
+				    dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0)*w.get(elem);
 			}
 		}
-		return (float) Math.sqrt(dist);
+		return (float) Math.sqrt(dist/wSum);
 	}
-
+	
+	//Efecutar un cambio de la manera de calcular la distancia al usar dist. Euclidiana
+	
+	
+	
+	
+	
+	
 	
 	public double x2(HashMap<String, Float> histo, ImageTags t2) {
 		float dist = 0.0f;
@@ -433,8 +449,6 @@ public class Node {
 	}
 	
 
-	
-	
 	
 	public double distance(ImageTags img) {
 		if (!useHisto)
@@ -632,11 +646,11 @@ public class Node {
 	}
 	
 	public ArrayList<String> getTop10Nodes(){
-		
+	
 		//order the histoMean
 		ArrayList<String> mean10 = new ArrayList<String>();
 		LinkedHashMap<String, Float> sortedByValue = orderHashMap(histoMean, true);
-		
+	
 		
 		int h = 0;
 		for(Entry<String, Float> e : sortedByValue.entrySet()){
@@ -648,7 +662,9 @@ public class Node {
 		
 		
 		return mean10;
-				
+		
+		
+		
 		
 	}
 	

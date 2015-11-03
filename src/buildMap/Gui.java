@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
+
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -48,11 +48,11 @@ public class Gui extends JFrame implements ActionListener {
 		
 		
 		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205);
-		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegeMerge_Hybrid/NewCollege_",0.000000001,8127,"output.data",1183);
-		bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces_GoogLeNet/NewCollege_",0.000000001,8127,"output.data",205);
+		bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollege_HybridAlexNet/NewCollege_",-0.000000001,8127,"output.data",1183);
+		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces_GoogLeNet/NewCollege_",0.000000001,8127,"output.data",205);
 		
 		
-		name = "NewCollege_PlacesGoogLeNet";
+		name = "NewCollege_HybridAlexNet";
 		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001);
 
 		getContentPane().setLayout(new BorderLayout());
@@ -190,11 +190,17 @@ public class Gui extends JFrame implements ActionListener {
 			Kmeans km2;
 			km2 = new Kmeans(1,bm.dimension, bm.imgTags);
 			ArrayList<Float> coef = new ArrayList<Float>();
-			int k=1; 
+			int k=393; 
+			
+			if(k==1)
+				FileMethods.saveFile("K;s2\n", "K_Variances_"+name, false);
+			
 			
 			do {
 				km2.setK(k);
-				coef.add(km2.findMeansCoef()); 
+				Float coefValue =km2.findMeansCoef();
+				coef.add(coefValue); 
+				FileMethods.saveFile(String.valueOf(k)+";"+String.valueOf(coefValue)+"\n", "K_Variances_"+name, true);
 				++k;
 				if ((k%100)==0) System.out.println("K="+k);
 			}
@@ -202,8 +208,8 @@ public class Gui extends JFrame implements ActionListener {
 			
 			
 			//---------------------------------------------------------------------------------------kitar el 2k
-			FileMethods.saveFile("K;s2\n", "K_Variances_"+name, false);
-			String  dataResults="";
+			
+			/*String  dataResults="";
 			
 			
 			dataResults+="K\tVariance\n";
@@ -213,8 +219,8 @@ public class Gui extends JFrame implements ActionListener {
 				FileMethods.saveFile(String.valueOf(h)+";"+String.valueOf(coefValue)+"\n", "K_Variances_"+name, true);
 				dataResults+= String.valueOf(h)+"\t"+String.valueOf(coefValue)+"\n";
 				
-			}
-			System.out.println(dataResults);
+			}*/
+			//System.out.println(dataResults);
 			//JTextArea  jtA = new JTextArea();
 			//jtA.setText(dataResults);
 			//JScrollPane scroll=new JScrollPane(jtA);
