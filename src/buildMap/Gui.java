@@ -42,16 +42,12 @@ public class Gui extends JFrame implements ActionListener {
 		threshold2 = 0.0063;
 		cutNode = 20;
 		bm = new BuildMap(threshold1, threshold2, cutNode);
-		// bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
-		
-		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegeTags_Clarifai/PanoStitchOutput_LisaNewCollegeNov3_",0.000000001,8127,"output.data",20);
-		
-		
-		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205);
-		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollege_HybridAlexNet/NewCollege_",-0.000000001,8127,"output.data",1183);
-		bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces_GoogLeNet/NewCollege_",0.000000001,8127,"output.data",205);
+		//bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
+		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegeTags_Clarifai/PanoStitchOutput_LisaNewCollegeNov3_",0.000000001,8127,"output.data",20);
+		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205);
+		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollege_HybridAlexNet/NewCollege_",-0.000000001,8127,"output.data",1183);
+		bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_GoogLeNet/NewCollege_",0.000000001,8127,"output.data",205);
 		name = "NewCollege_PlacesGoogLeNet";
-		
 		//name = "NewCollege_HybridAlexNet";
 		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001);
 
