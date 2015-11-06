@@ -38,21 +38,23 @@ public class Gui extends JFrame implements ActionListener {
 	String name ;
 
 	public Gui() {
-		threshold1 = 0.003;
-		threshold2 = 0.0063;
+		threshold1 = 0.02;
+		threshold2 = 0.07;
 		cutNode = 20;
 		bm = new BuildMap(threshold1, threshold2, cutNode);
 		//bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
 		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegeTags_Clarifai/PanoStitchOutput_LisaNewCollegeNov3_",0.000000001,8127,"output.data",20);
-		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205);
+		bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205);
 		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollege_HybridAlexNet/NewCollege_",-0.000000001,8127,"output.data",1183);
-		bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_GoogLeNet/NewCollege_",0.000000001,8127,"output.data",205);
-		name = "NewCollege_PlacesGoogLeNet";
+		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_GoogLeNet/NewCollege_",0.000000001,8127,"output.data",205);
+	//	name = "NewCollege_PlacesGoogLeNet";
+		name = "NewCollege_PlacesAlexNet";
 		//name = "NewCollege_HybridAlexNet";
 		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001);
 
 		getContentPane().setLayout(new BorderLayout());
 		setSize(width, height);
+		setTitle(name);
 		cm = new CanvasMap(this);
 		getContentPane().add(cm, BorderLayout.CENTER);
 		getContentPane().add(getToolBar(), BorderLayout.NORTH);
