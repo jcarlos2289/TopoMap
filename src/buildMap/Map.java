@@ -9,10 +9,16 @@ public class Map {
 	ArrayList<Edge> edges;
 	boolean useHisto=true;
 	float[] weights;
+	float coefA, coefB, coefC, coefD, coefE;
 	
 	public Map () {
 		nodes=new ArrayList<Node>();
 		edges=new ArrayList<Edge>();
+		coefA=-1;
+		coefB=-1;
+		coefC=-1;
+		coefD=-1;
+		coefE=-1;
 	}
 	
 	public void setWeights (int size) {
@@ -237,7 +243,11 @@ public class Map {
 		table +="<h2>C= "+ C+ "  C<sub>Norm</sub>=  "+Cn+"</h2>";
 		table +="<h2>E= "+ E+ "  E<sub>Norm</sub>=  "+En+"</h2>";
 		
+		
+				
+		
 		float metric = getMapMetric(dmax);
+			
 		table +="<h1>Metric=  "+metric+"</h1><br>";
 		table+= "</html>";
 		return table;
@@ -256,7 +266,7 @@ public class Map {
 		
 		float E=0, C=0;
 	
-		float wA=0, wB=25, wC=25, wD=25, wE =25;
+		float wA=20, wB=20, wC=20, wD=20, wE =20;
 		
 		//Normalized Values 
 		NodeCoef AvgCoefNorm = normalize(AvgCoef, dmax);	
@@ -269,6 +279,13 @@ public class Map {
 				+C*wC
 				+E*wE;
 		
+		
+		coefA=AvgCoefNorm.getA();
+		coefB=AvgCoefNorm.getB();
+		coefC=C;
+		coefD=AvgCoefNorm.getD();
+		coefE=E;
+				
 		return metric;
 	}
 	

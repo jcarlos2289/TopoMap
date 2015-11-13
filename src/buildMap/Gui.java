@@ -279,7 +279,7 @@ public class Gui extends JFrame implements ActionListener {
         DecimalFormat formateador = new DecimalFormat("####.######", simbol);
         
 		for (int i = 0; i <=10; i++) {
-			for (int j = 0; j <=10; j++) {
+			for (int j = 0; j <=25; j++) {
 				g.bm.setThreshold1(th1);
 				g.bm.setThreshold2(th2);
 				g.bm.buildMap();
@@ -287,7 +287,17 @@ public class Gui extends JFrame implements ActionListener {
 				
 						//String.format("%,6f",g.bm.threshold1)	
 				float metric = g.bm.map.getMapMetric(g.cm.MaxDistance());
-				DATARESUME=formateador.format(g.bm.threshold1)+ ";"+ formateador.format(g.bm.threshold2)+ ";"+g.bm.cutNode+ ";"+g.bm.map.nodes.size()+ ";"+g.bm.map.edges.size()+ ";"+metric+"\n";
+				DATARESUME=formateador.format(g.bm.threshold1)+ ";"
+				
+						+ formateador.format(g.bm.threshold2)+ ";"
+						+g.bm.cutNode+ ";"+g.bm.map.nodes.size()+ ";"
+						+g.bm.map.edges.size()+ ";"	
+						+g.bm.map.coefA+ ";"	
+						+g.bm.map.coefB+ ";"	
+						+g.bm.map.coefC+ ";"	
+						+g.bm.map.coefD+ ";"	
+						+g.bm.map.coefE+ ";"	
+						+metric+"\n";
 				FileMethods.saveFile(DATARESUME, g.name+"_MetricsData", true);
 				System.out.printf("i= %d\tj= %d\t Ciclo= %d\n", i,j,vuelta);
 				++vuelta;

@@ -168,7 +168,7 @@ public class BuildMap {
 			//dist = currentNode.kullback(currentNode.histoMean,imgTags.get(i));
 			FileMethods.saveFile(String.valueOf(dist)+"\n","Distancias", true);	
 
-			
+			//if(i<loopClose){   //Indicar en que imagen se cierra la primera vuelva, luego de esto solo añade la imagen al nodo q tenga la menor distancia
 			if (dist<threshold2) {
 				currentNode.add(imgTags.get(i));
 			}
@@ -186,7 +186,12 @@ public class BuildMap {
 					map.createEdge(auxNode, currentNode);
 				}
 			}
-			
+//			}else{
+//				//Solo agregar al nodo con la menor distancia
+//				currentNode=auxNode2;
+//				currentNode.add(imgTags.get(i));
+//				
+//			}
 			
 
 		}//end for
