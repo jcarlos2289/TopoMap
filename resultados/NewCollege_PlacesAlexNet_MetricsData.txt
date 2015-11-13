@@ -1,0 +1,2 @@
+Th1;Th2;CN;Nodes;Edges;Metric
+0.02;0.065;20;9;8;76.59432

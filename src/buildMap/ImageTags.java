@@ -8,6 +8,7 @@ public class ImageTags {
 	ConcurrentHashMap<String,Float> tags;
 	double xcoord, ycoord;
 	float threshold;
+	String category;
 	
 	public ImageTags (String in) {
 		imageName=in;
@@ -21,6 +22,10 @@ public class ImageTags {
 	public void setCoords (double x, double y) {
 		xcoord=x;
 		ycoord=y;
+	}
+	
+	public void setCategory(String cat){
+		category=cat;
 	}
 	
 	public Set<String> getKeys () {
@@ -44,6 +49,7 @@ public class ImageTags {
 		value=Float.valueOf(split[1]);
 		if (value>threshold)
 			tags.put(split[0], value);
+		
 	}
 
 }

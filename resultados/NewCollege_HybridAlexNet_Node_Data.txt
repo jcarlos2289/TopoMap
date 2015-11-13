@@ -1,0 +1,19 @@
+<html>
+<h1> Sequence: NewCollege_HybridAlexNet</h1><br><p>Th1 = 0.02</p><p>Th2 = 0.065</p><p>CN = 15</p><p> Nodes: 1</p><br><table border="1"   style="font-size:8px"    ><tr><th>Node</th><th>Tag 1</th><th>Tag 2</th><th>Tag 3</th><th>Tag 4</th><th>Tag 5</th><th>Tag 6</th><th>Tag 7</th><th>Tag 8</th><th>Tag 9</th><th>Tag 10</th></tr>
+<tr><td>1</td><td>prison</td><td>castle</td><td>courtyard</td><td>thatch</td><td>megalith</td><td>castle_2</td><td>hospital</td><td>park_bench</td><td>mansion</td><td>gondola</td></tr>
+</table>
+
+
+<br> <p><h2>Categories Count Percentage</h2><br><p>Cat_Amout &nbsp;&nbsp; %</p><br><p>2&nbsp;&nbsp;100.0%</p><br></p><br><h2>Metrics Coeficients</h2><br> <table border="1"   style="font-size:8px" ><tr><th>Node</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>Metric</th></tr><tr><td>X</td><td>2.4609326E-4</td><td>0.0</td><td>NaN</td><td>38.10352</td><td><9.765625E-5----3.90625E-5</td><td>NaN</td></tr></table><br><br><br><h2>Node Metric: NaN</h2><br><br>
+
+
+<br> <p>Node Categories
+<br>Node 0
+<br>Category &nbsp;&nbsp; Amount<br>
+null &nbsp;&nbsp; 274 &nbsp;&nbsp; 3.3714778%<br>
+OX &nbsp;&nbsp; 7853 &nbsp;&nbsp; 96.628525%<br>
+
+
+
+</p>
+</html>

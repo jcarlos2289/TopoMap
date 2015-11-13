@@ -1,0 +1,76 @@
+<html>
+<h1> Sequence: NewCollege_PlacesAlexNet</h1><br><p>Th1 = 0.02</p><p>Th2 = 0.065</p><p>CN = 20</p><p> Nodes: 9</p><br><table border="1"   style="font-size:8px"    ><tr><th>Node</th><th>Tag 1</th><th>Tag 2</th><th>Tag 3</th><th>Tag 4</th><th>Tag 5</th><th>Tag 6</th><th>Tag 7</th><th>Tag 8</th><th>Tag 9</th><th>Tag 10</th></tr>
+<tr><td>1</td><td>courtyard</td><td>palace</td><td>hospital</td><td>abbey</td><td>castle</td><td>alley</td><td>mansion</td><td>building_facade</td><td>arch</td><td>ruin</td></tr>
+<tr><td>2</td><td>courtyard</td><td>alley</td><td>hospital</td><td>mansion</td><td>palace</td><td>castle</td><td>abbey</td><td>building_facade</td><td>arch</td><td>plaza</td></tr>
+<tr><td>3</td><td>courtyard</td><td>castle</td><td>fairway</td><td>alley</td><td>hospital</td><td>mansion</td><td>palace</td><td>abbey</td><td>golf_course</td><td>building_facade</td></tr>
+<tr><td>4</td><td>fairway</td><td>castle</td><td>ruin</td><td>golf_course</td><td>forest_road</td><td>forest_path</td><td>driveway</td><td>tree_farm</td><td>orchard</td><td>abbey</td></tr>
+<tr><td>5</td><td>fairway</td><td>golf_course</td><td>castle</td><td>ruin</td><td>forest_path</td><td>tree_farm</td><td>orchard</td><td>forest_road</td><td>sky</td><td>abbey</td></tr>
+<tr><td>6</td><td>courtyard</td><td>hospital</td><td>alley</td><td>castle</td><td>palace</td><td>mansion</td><td>abbey</td><td>building_facade</td><td>arch</td><td>ruin</td></tr>
+<tr><td>7</td><td>fairway</td><td>golf_course</td><td>ruin</td><td>castle</td><td>playground</td><td>mansion</td><td>abbey</td><td>alley</td><td>hospital</td><td>courtyard</td></tr>
+<tr><td>8</td><td>forest_path</td><td>ruin</td><td>rainforest</td><td>castle</td><td>orchard</td><td>fairway</td><td>tree_farm</td><td>golf_course</td><td>sky</td><td>cemetery</td></tr>
+<tr><td>9</td><td>fairway</td><td>castle</td><td>golf_course</td><td>courtyard</td><td>ruin</td><td>alley</td><td>mansion</td><td>driveway</td><td>hospital</td><td>abbey</td></tr>
+</table>
+
+
+<br> <p><h2>Categories Count Percentage</h2><br><p>Cat_Amout &nbsp;&nbsp; %</p><br><p>1&nbsp;&nbsp;77.77778%</p><p>2&nbsp;&nbsp;22.222221%</p><br></p><br><h2>Metrics Coeficients</h2><br> <table border="1"   style="font-size:8px" ><tr><th>Node</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>Metric</th></tr><tr><td>X</td><td>0.0015686274</td><td>1.0</td><td>22.682755</td><td>14.26452</td><td><61.051346----31.262405</td><td>80.17941</td></tr><tr><td>X</td><td>0.0014749262</td><td>2.0</td><td>33.073635</td><td>14.4519415</td><td><61.051346----31.262405</td><td>77.29774</td></tr><tr><td>X</td><td>7.570023E-4</td><td>2.0</td><td>82.149536</td><td>22.714975</td><td><61.051346----31.262405</td><td>77.15125</td></tr><tr><td>X</td><td>0.0015384615</td><td>2.0</td><td>91.77211</td><td>25.802917</td><td><61.051346----31.262405</td><td>77.09689</td></tr><tr><td>X</td><td>5.509642E-4</td><td>2.0</td><td>89.864456</td><td>22.047276</td><td><61.051346----31.262405</td><td>77.13973</td></tr><tr><td>X</td><td>0.0014858841</td><td>2.0</td><td>92.54113</td><td>14.78461</td><td><61.051346----31.262405</td><td>77.150085</td></tr><tr><td>X</td><td>0.0034482758</td><td>2.0</td><td>83.722755</td><td>11.150919</td><td><61.051346----31.262405</td><td>77.150276</td></tr><tr><td>X</td><td>0.0016722408</td><td>2.0</td><td>104.933914</td><td>17.743052</td><td><61.051346----31.262405</td><td>77.10147</td></tr><tr><td>X</td><td>0.0024183798</td><td>1.0</td><td>110.48532</td><td>33.452396</td><td><61.051346----31.262405</td><td>79.85304</td></tr></table><br><br><br><h2>Node Metric: 77.79109</h2><br><br>
+
+
+<br> <p>Node Categories
+<br>Node 0
+<br>Category &nbsp;&nbsp; Amount<br>
+null &nbsp;&nbsp; 1 &nbsp;&nbsp; 0.07843137%<br>
+OX &nbsp;&nbsp; 1274 &nbsp;&nbsp; 99.92157%<br>
+
+
+
+<br>Node 1
+<br>Category &nbsp;&nbsp; Amount<br>
+OX &nbsp;&nbsp; 678 &nbsp;&nbsp; 100.0%<br>
+
+
+
+<br>Node 2
+<br>Category &nbsp;&nbsp; Amount<br>
+OX &nbsp;&nbsp; 1321 &nbsp;&nbsp; 100.0%<br>
+
+
+
+<br>Node 3
+<br>Category &nbsp;&nbsp; Amount<br>
+OX &nbsp;&nbsp; 650 &nbsp;&nbsp; 100.0%<br>
+
+
+
+<br>Node 4
+<br>Category &nbsp;&nbsp; Amount<br>
+OX &nbsp;&nbsp; 1815 &nbsp;&nbsp; 100.0%<br>
+
+
+
+<br>Node 5
+<br>Category &nbsp;&nbsp; Amount<br>
+OX &nbsp;&nbsp; 673 &nbsp;&nbsp; 100.0%<br>
+
+
+
+<br>Node 6
+<br>Category &nbsp;&nbsp; Amount<br>
+OX &nbsp;&nbsp; 290 &nbsp;&nbsp; 100.0%<br>
+
+
+
+<br>Node 7
+<br>Category &nbsp;&nbsp; Amount<br>
+OX &nbsp;&nbsp; 598 &nbsp;&nbsp; 100.0%<br>
+
+
+
+<br>Node 8
+<br>Category &nbsp;&nbsp; Amount<br>
+null &nbsp;&nbsp; 273 &nbsp;&nbsp; 33.010883%<br>
+OX &nbsp;&nbsp; 554 &nbsp;&nbsp; 66.98912%<br>
+
+
+
+</p>
+</html>

@@ -2,29 +2,31 @@ package buildMap;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
+//import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-
+/*
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.CategoryDataset;*/
 
 public class CanvasMap extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 1366050590724868148L;
@@ -34,7 +36,8 @@ public class CanvasMap extends JPanel implements MouseListener {
 	double zoomFactor=2.8;
 	double xdesp, ydesp;
 	int radius=10;
-	JDialog tags=null, nodeInfo=null, graf=null, top =null;
+	JDialog tags=null, nodeInfo=null,  top =null;
+	//JDialog graf=null; 
 	
 	public CanvasMap (Gui ig) {
 		img2 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("newcollege.jpg"));
@@ -50,6 +53,26 @@ public class CanvasMap extends JPanel implements MouseListener {
 		dist += Math.pow(evt.getY()-(int)(-zoomFactor*(n.representative.ycoord-ymean)+ydesp+radius), 2.0);
 		return Math.sqrt(dist);
 	}
+	
+	public  float getMaxWidth(){
+        float newX=0;
+		newX = (float) (((float)(img2.getIconWidth() -xdesp))/zoomFactor +xmean);
+		return newX;
+	}
+	
+	public  float getMaxHeight(){
+        float newY=0;
+		newY = (float) (((float)(img2.getIconHeight() -ydesp))/zoomFactor +ymean);
+		return newY;
+	}
+	
+	public float MaxDistance(){
+			
+		float dmax = (float) Math.sqrt(Math.pow(getMaxWidth(), 2)+ Math.pow(getMaxHeight(), 2));
+		
+		return dmax;
+	}
+	
 
 	public void paint(Graphics g) {
 		int x,y, xAnt=0, yAnt=0;
@@ -107,11 +130,11 @@ public class CanvasMap extends JPanel implements MouseListener {
 					if (tags!=null) {
 						 tags.dispose();
 	                     nodeInfo.dispose();
-	                     graf.dispose();
+	                    // graf.dispose();
 	                     top.dispose();
 	                     tags=null;
 	                     nodeInfo=null;
-	                     graf=null;
+	                    // graf=null;
 	                     top=null;
 					}
 					showInfo(selectn);
@@ -146,9 +169,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 					}
 					}
 				
-				
-				
-						
+										
 				for (int j = 0; j <gui.km.obtained.size(); j++) {
 					
 					Point point = gui.km.obtained.get(j);
@@ -156,8 +177,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 					x=(int)(zoomFactor*(point.xcoord-xmean)+xdesp);
 					y=(int)(-zoomFactor*(point.ycoord-ymean)+ydesp);
 			        g.drawOval(x, y, 2, 2);
-					
-					
+									
 				}
 				/*for (Iterator<Point> iterator = gui.km.obtained.iterator(); iterator.hasNext();) {
 					Point point = iterator.next();
@@ -166,10 +186,9 @@ public class CanvasMap extends JPanel implements MouseListener {
 			        g.drawOval(x, y, radius, radius);
 				}*/
 				
+							
 				
-				
-				
-			/*	int c = 0;
+				/*int c = 0;
 				for (Point point : gui.km.means) {
 					
 					g.setColor(new Color(colors[c][0],colors[c][1],colors[c][2]));
@@ -187,17 +206,12 @@ public class CanvasMap extends JPanel implements MouseListener {
 				
 				g.setColor(new Color(0,0,255));
 				//g.draw3DRect(80, 100, 30 ,15, true);
-				g.drawRect(98, 85, 50 ,20);
-				g.fillRect(98, 85, 50 ,20);
+				g.drawRect(360, 85, 50 ,20);
+				g.fillRect(360, 85, 50 ,20);
 				g.setColor(new Color(255,255,255));
-				g.drawString("k = " + gui.km.k, 100, 100);
+				g.drawString("k = " + gui.km.k, 361, 100);
 				//g.drawString(str, xAnt, yAnt);
-				
-				
-				
-				
-				
-				
+								
 			}
 			
 		//}
@@ -229,18 +243,31 @@ public class CanvasMap extends JPanel implements MouseListener {
 		nodeInfo.setLocation(1050,400);
 		nodeInfo.setVisible(true);
 		//FileMethods.saveFile(sel.getNodesContent(), "Node_"+String.valueOf(gui.bm.map.nodes.indexOf(sel)), false);
-		createChart(sel);
-		
+		//createChart(sel);
+			
 		presenceData = new JLabel(sel.getTop10());
 		scroll2 = new JScrollPane(presenceData);
 		top = new JDialog(gui);
 		top.add(scroll2);
 		top.setSize(450, 300);
+		top.setLocation(850,400);
 		top.setVisible(true);
+			
 		
 	}
 	
+	public void showMapInfo(){
+		JDialog message = new JDialog(gui);
+		message.setSize(700, 500);
+		
+		JLabel dat = new JLabel(gui.bm.map.printMetricTable(MaxDistance()));
+		JScrollPane scroll = new JScrollPane(dat);
+		message.setTitle("Map Metrics Information");
+		message.setContentPane(scroll);
+		message.setVisible(true);
+	}
 	
+	/*
 	public void  createChart(Node sel){
 		
 		   final CategoryDataset dataset = sel.getDataset();
@@ -281,7 +308,7 @@ public class CanvasMap extends JPanel implements MouseListener {
             graf.setVisible(true);
 		
 		
-	}
+	}*/
 	
 	
 	
@@ -293,13 +320,13 @@ public class CanvasMap extends JPanel implements MouseListener {
 			if (tags!=null) {
 				tags.dispose();
 				nodeInfo.dispose();
-				graf.dispose();
+				//graf.dispose();
 				top.dispose();
 				gui.nodes.setSelectedIndex(0);
 				tags=null;
 				nodeInfo=null;
-				graf=null;
-				top=null;
+				//graf=null;
+				top = null;
 			}
 			for (Node n:gui.bm.map.nodes) {
 				if (distance(evt, n) < radius) {
@@ -326,20 +353,36 @@ public class CanvasMap extends JPanel implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 	}
 
-public void showNodeDetails() {
+	public void showNodeDetails() {
 		// TODO Auto-generated method stub
-		
+		ArrayList<Integer> classCount = new ArrayList<Integer>();
+		String cats ="Node Categories\n";
 		String text = "<html>\n";
-		
+		text +="<h1> Sequence: "+ gui.name+"</h1><br>";
+		text += "<p>Th1 = "+ gui.bm.threshold1 + "</p><p>Th2 = " +gui.bm.threshold2 + "</p><p>CN = "+ gui.bm.cutNode+"</p><p> Nodes: "+gui.bm.map.getMapSize()+"</p><br>";
+					
 		text += "<table border=\"1\"   style=\"font-size:8px\"    >";
 		text += "<tr><th>Node</th>";
 		for(int i = 0;i < 10; ++i )
 			text+="<th>Tag "+ String.valueOf(i+1)+ "</th>";
 		text +="</tr>\n";
 			
+		String table2 ="<h2>Metrics Coeficients</h2><br> "
+				+ "<table border=\"1\"   style=\"font-size:8px\" >"
+				+ "<tr><th>Node</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>Metric</th></tr>";
 		int h = 0;
+		
+		
+float newX=0, newY=0;
+		
+		newX = (float) (((float)(img2.getIconWidth() -xdesp))/zoomFactor +xmean);
+		newY = (float) (((float)(img2.getIconHeight() -ydesp))/zoomFactor +ymean);
+		ArrayList<Float> nodeMetrics = new ArrayList<Float>();
+		
 		for (Iterator<Node> iterator = gui.bm.map.nodes.iterator(); iterator.hasNext();) {
+			
 			Node node =  iterator.next();
+			classCount.add(node.getCategoryAmount());
 			ArrayList<String> nodetags = node.getTop10Nodes();
 			text +="<tr>";
 			text +="<td>" + ++h +"</td>";
@@ -347,10 +390,70 @@ public void showNodeDetails() {
 				text +="<td>"+tag +"</td>";
 			}
 			text +="</tr>\n";
+			
+			cats+="<br>Node "+(h-1)+"\n";
+			cats += node.countCategory();
+			cats+= "\n\n\n";
+			String met[]= node.getNodeMetric(gui.bm.map.edges, gui.bm.map.nodes, gui.bm.nClass, newY,newX);
+			table2 += met[0];
+			nodeMetrics.add(Float.parseFloat(met[1]));
+			
 		}
 		
+		table2+="</table><br><br><br>";
+		
+		float mapMetric=0;
+		
+		for (Float met : nodeMetrics) {
+			mapMetric += met/gui.bm.map.nodes.size();
+		}
+		
+		table2+="<h2>Node Metric: "+mapMetric+"</h2><br><br>";
+		
+		
+		
+		
+		Collections.sort(classCount);
+		
+		String catPercentage="<h2>Categories Count Percentage</h2><br><p>Cat_Amout &nbsp;&nbsp; %</p><br>";
+		
+		Set<Integer> data = new HashSet<>(classCount);
+    
+		for(int dat: data){
+			int  val = Collections.frequency(classCount, dat);
+			catPercentage+="<p>"+dat+"&nbsp;&nbsp;"+(((float)val)*100/gui.bm.map.nodes.size())+"%</p>";
+			
+		}
+		
+		catPercentage+="<br>";
+		
+		
+		//tags.lastIndexOf(g)
+       /* 
+        int val, index;
+        for (String key : data) {
+            //System.out.println(key + " : " + Collections.frequency(tags, key));
+            //dataCount += key + "-" + Collections.frequency(tags, key) + "\n";
+            val = Collections.frequency(tags, key);
+            index = tags.lastIndexOf(key);
+            if (val > threshold) {
+                //probs.add(key + "-" + Collections.frequency(tags, key) + "\n");
+                sortTag.add(key);
+                probs.add(key + "-" + val + "\n");
+                tagProb.add(new Tag(key, val, (double) tagSingleProbSum.get(index)));
+            }
+        }*/
+		
+				
 		text += "</table>";
+		text +="\n\n\n<br> <p>" +catPercentage+"</p><br>";
+		
+		text+=table2;
+		
+		text +="\n\n\n<br> <p>" +cats+"</p>";
 		text += "\n</html>";
+		
+		
 		
 		JDialog message = new JDialog(gui);
 		message.setSize(450, 300);
@@ -361,14 +464,10 @@ public void showNodeDetails() {
 		message.setContentPane(scroll);
 		message.setVisible(true);
 		
-		
+		FileMethods.saveFile(text, gui.name+"_Node_Data", false);
 		
 		
 		
 		
 	}
-
-
-
-	
 }

@@ -3,9 +3,10 @@ package buildMap;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+//import java.io.IOException;
 import java.util.ArrayList;
-
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -36,30 +37,131 @@ public class Gui extends JFrame implements ActionListener {
 	BuildMap bm;
 	Kmeans km;
 	String name ;
-
+	
 	public Gui() {
-		threshold1 = 0.02;
-		threshold2 = 0.07;
-		cutNode = 20;
+		threshold1 = 0.022;
+		threshold2 = 0.049;
+		cutNode = 15;
 		bm = new BuildMap(threshold1, threshold2, cutNode);
-		//bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
-		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegeTags_Clarifai/PanoStitchOutput_LisaNewCollegeNov3_",0.000000001,8127,"output.data",20);
-		bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205);
-		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollege_HybridAlexNet/NewCollege_",-0.000000001,8127,"output.data",1183);
-		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_GoogLeNet/NewCollege_",0.000000001,8127,"output.data",205);
-	//	name = "NewCollege_PlacesGoogLeNet";
-		name = "NewCollege_PlacesAlexNet";
-		//name = "NewCollege_HybridAlexNet";
-		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001);
+		
+		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205,1,2000000);
+		//name = "NewCollege_PlacesAlexNet";
+		
+		bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollege_HybridAlexNet/NewCollege_",0.000000001,8127,"output.data",1183,1,2000000);
+		name = "NewCollege_HybridAlexNet";
 
+		// bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
+		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces/NewCollege_",0.000000001,8127);
+		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces/NewCollege_",0.000000001);
+
+		//bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
+		//bm.readTags("/home/jcarlos2289/workspace/tagsNewCollege/NewCollegePlaces/NewCollege_",0.000000001);
+		
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Dumbo/dum_cloudy1/dum_cloudy1_Places/IDOL_DUMBO_Cl1_",-0.000000001,917,"IDOL_DUMBO_Cl1.txt",205);
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_Places/IDOL_MINNIE_Cl1_",-0.000000001,915, "IDOL_MINNIE_Cl1.txt",205);
+		//name = "MinnieCl1_PlacesAlexNet";
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Dumbo/dum_cloudy1/dum_cloudy1_ImageNet/IDOL_DUMBO_Cl1_",-0.000000001,917,"IDOL_DUMBO_Cl1.txt",1000);
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_ImageNet/IDOL_MINNIE_Cl1_",-1.00,915, "IDOL_MINNIE_Cl1.txt",1000);
+//name = "MinnieCl1_ImageNetCaffe";
+	    //bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Dumbo/dum_cloudy1/dum_cloudy1_Hybrid/IDOL_DUMBO_Cl1_",-0.000000001,917,"IDOL_DUMBO_Cl1.txt",1183);
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_Hybrid/IDOL_MINNIE_Cl1_",-0.000000001,915, "IDOL_MINNIE_Cl1.txt",1183);
+//name = "MinnieCl1_HybridAlexNet";
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_ImageNetGoogleNet/IDOL_MINNIE_Cl1_",-0.000000001,915, "IDOL_MINNIE_Cl1.txt",1000);
+	//	bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Dumbo/dum_cloudy1/dum_cloudy1_ImageNetGoogleNet/IDOL_DUMBO_Cl1_",-0.000000001,917,"IDOL_DUMBO_Cl1.txt",1000);
+//name = "DumboCl1_ImageNetGoogLeNet";
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_ImageNetAlex/IDOL_MINNIE_Cl1_",-0.000000001,915, "IDOL_MINNIE_Cl1.txt",1000);
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Dumbo/dum_cloudy1/dum_cloudy1_ImageNetAlex/IDOL_DUMBO_Cl1_",-0.000000001,917,"IDOL_DUMBO_Cl1.txt",1000);
+		//name = "MinnieCl1_ImageNetAlexNet";
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_ImageNetRCNN/IDOL_MINNIE_Cl1_",-0.000000001,915, "IDOL_MINNIE_Cl1.txt",1000);
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Dumbo/dum_cloudy1/dum_cloudy1_ImageNetRCNN/IDOL_DUMBO_Cl1_",-0.000000001,917,"IDOL_DUMBO_Cl1.txt",1000);
+        // name = "DumboCl1_ImageNetRCNN";
+		
+//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_ImageNetVGG/IDOL_MINNIE_Cl1_",-0.000000001,915, "IDOL_MINNIE_Cl1.txt",1000);
+	    //bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Dumbo/dum_cloudy1/dum_cloudy1_ImageNetVGG/IDOL_DUMBO_Cl1_",-0.000000001,917,"IDOL_DUMBO_Cl1.txt",1000);
+         //name = "DumboCl1_ImageNetVGG";
+
+
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_ImageNetMerge/IDOL_MINNIE_Cl1_",-0.000000001,915, "IDOL_MINNIE_Cl1.txt",1000);
+	    //bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Dumbo/dum_cloudy1/dum_cloudy1_ImageNetMerge/IDOL_DUMBO_Cl1_",-0.000000001,917,"IDOL_DUMBO_Cl1.txt",1000);
+			
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_ImageNetSUM/IDOL_MINNIE_Cl1_",-0.000000001,915, "IDOL_MINNIE_Cl1.txt",1000);
+	    //bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Dumbo/dum_cloudy1/dum_cloudy1_ImageNetSUM/IDOL_DUMBO_Cl1_",-0.000000001,917,"IDOL_DUMBO_Cl1.txt",1000);
+		
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_ImageNetFusion/IDOL_MINNIE_Cl1_",-0.000000001,1830, "IDOL_MINNIE_Cl1_FUSION.txt",1000);
+		
+		
+//------------------------------------------------Fusion		
+//CLOUDY
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/min_cloudy_PlacesAlexNet/IDOL_MINNIE_Cl_",-0.000000001,3752, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/IDOL_MINNIE_Cl.txt",205);
+		//name = "MinnieCloudy_PlacesAlexNet";
+		
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/min_cloudy_ImageNetAlexNet/IDOL_MINNIE_Cl_",-0.000000001,3752, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/IDOL_MINNIE_Cl.txt",205);
+		//name = "MinnieCloudy_ImageNetAlexNet";
+		
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/min_cloudy_ImageNetCaffeNet/IDOL_MINNIE_Cl_",-0.000000001,3752, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/IDOL_MINNIE_Cl.txt",205);
+		//name = "MinnieCloudy_ImageNetCaffeNet";
+		
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/min_cloudy_ImageNetGoogLeNet/IDOL_MINNIE_Cl_",-0.000000001,3752, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/IDOL_MINNIE_Cl.txt",205);
+		//name = "MinnieCloudy_ImageNetGoogLeNet";
+		
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/min_cloudy_ImageNetVGG/IDOL_MINNIE_Cl_",-0.000000001,3752, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/IDOL_MINNIE_Cl.txt",205);
+		//name = "MinnieCloudy_ImageNetVGG";
+		
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/min_cloudy_HybridAlexNet/IDOL_MINNIE_Cl_",-0.000000001,3752, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_cloudy/IDOL_MINNIE_Cl.txt",1183,5, 200000000);
+		//name = "MinnieCloudy_HybridAlexNet";
+
+//Sunny
+		
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/min_sunny_PlacesAlexNet/IDOL_MINNIE_Su_",-0.000000001,3606, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/IDOL_MINNIE_Su.txt",205);
+		//name = "MinnieSunny_PlacesAlexNet";
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/min_sunny_ImageNetAlexNet/IDOL_MINNIE_Su_",-0.000000001,3606, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/IDOL_MINNIE_Su.txt",205);
+		//name = "MinnieSunny_ImageNetAlexNet";
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/min_sunny_ImageNetCaffeNet/IDOL_MINNIE_Su_",-0.000000001,3606, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/IDOL_MINNIE_Su.txt",205);
+		//name = "MinnieSunny_ImageNetCaffeNet";
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/min_sunny_ImageNetGoogLeNet/IDOL_MINNIE_Su_",-0.000000001,3606, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/IDOL_MINNIE_Su.txt",205);
+		//name = "MinnieSunny_ImageNetGoogLeNet";
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/min_sunny_ImageNetVGG/IDOL_MINNIE_Su_",-0.000000001,3606, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/IDOL_MINNIE_Su.txt",205);
+		//name = "MinnieSunny_ImageNetVGG";
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/min_sunny_HybridAlexNet/IDOL_MINNIE_Su_",-0.000000001,3606, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_sunny/IDOL_MINNIE_Su.txt",1183);
+		//name = "MinnieSunny_HybridAlexNet";
+
+
+
+//Night
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/min_night_PlacesAlexNet/IDOL_MINNIE_Ni_",-0.000000001,4005, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/IDOL_MINNIE_Ni.txt",205,5, 200000000);
+		//name = "Minnienight_PlacesAlexNet";
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/min_night_ImageNetAlexNet/IDOL_MINNIE_Ni_",-0.000000001,4005, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/IDOL_MINNIE_Ni.txt",205);
+		//name = "MinnieNight_ImageNetAlexNet";
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/min_night_ImageNetCaffeNet/IDOL_MINNIE_Ni_",-0.000000001,4005, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/IDOL_MINNIE_Ni.txt",205);
+		//name = "MinnieNight_ImageNetCaffeNet";
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/min_night_ImageNetGoogLeNet/IDOL_MINNIE_Ni_",-0.000000001,4005, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/IDOL_MINNIE_Ni.txt",205);
+		//name = "MinnieNight_ImageNetGoogLeNet";
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/min_night_ImageNetVGG/IDOL_MINNIE_Ni_",-0.000000001,4005, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/IDOL_MINNIE_Ni.txt",205);
+		//name = "MinnieNight_ImageNetVGG";
+
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/min_night_HybridAlexNet/IDOL_MINNIE_Ni_",-0.000000001,4005, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie_Fusion/min_night/IDOL_MINNIE_Ni.txt",1183);
+		//name = "MinnieNight_HybridAlexNet";
+		
 		getContentPane().setLayout(new BorderLayout());
 		setSize(width, height);
 		setTitle(name);
 		cm = new CanvasMap(this);
+		//setTitle("Topological Mapping");
 		getContentPane().add(cm, BorderLayout.CENTER);
 		getContentPane().add(getToolBar(), BorderLayout.NORTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
+		
 	}
 
 	public JPanel getToolBar() {
@@ -155,6 +257,48 @@ public class Gui extends JFrame implements ActionListener {
 		}
 		g.setVisible(true);
 		g.toFront();
+		
+		String DATARESUME ;
+		
+		/*if (true)
+			DATARESUME="Th1;Th2;CN;Nodes;Edges;Metric\n";
+		else
+			DATARESUME="";*/
+		/*
+		float incremento = (float) 0.002;
+		float th1 = (float) 0.006;
+		float th2 = (float) 0.01;
+		int vuelta=1;
+		
+		
+		//DecimalFormatSymbols simbolos;
+        // Each tag contains a name and probability assigned to it by the recognition engine.
+        //System.out.println(String.format("  %s (%.4f)", tag.getName(), tag.getProbability()));
+        DecimalFormatSymbols simbol = new DecimalFormatSymbols();
+        simbol.setDecimalSeparator('.');
+        DecimalFormat formateador = new DecimalFormat("####.######", simbol);
+        
+		for (int i = 0; i <=10; i++) {
+			for (int j = 0; j <=10; j++) {
+				g.bm.setThreshold1(th1);
+				g.bm.setThreshold2(th2);
+				g.bm.buildMap();
+				th1+=incremento;
+				
+						//String.format("%,6f",g.bm.threshold1)	
+				float metric = g.bm.map.getMapMetric(g.cm.MaxDistance());
+				DATARESUME=formateador.format(g.bm.threshold1)+ ";"+ formateador.format(g.bm.threshold2)+ ";"+g.bm.cutNode+ ";"+g.bm.map.nodes.size()+ ";"+g.bm.map.edges.size()+ ";"+metric+"\n";
+				FileMethods.saveFile(DATARESUME, g.name+"_MetricsData", true);
+				System.out.printf("i= %d\tj= %d\t Ciclo= %d\n", i,j,vuelta);
+				++vuelta;
+				}
+			th2+=0.001;
+			th1=(float) 0.006;
+		}
+		g.setVisible(false);*/
+		
+		
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -168,6 +312,11 @@ public class Gui extends JFrame implements ActionListener {
 			mapGenerated = true;
 			cm.repaint();
 			cm.showNodeDetails();
+			cm.showMapInfo();
+			String DATARESUME ="Th1;Th2;CN;Nodes;Edges;Metric\n";
+			float metric = bm.map.getMapMetric(cm.MaxDistance());
+			DATARESUME+=bm.threshold1+ ";"+ bm.threshold2+ ";"+bm.cutNode+ ";"+bm.map.nodes.size()+ ";"+bm.map.edges.size()+ ";"+metric+"\n";
+			FileMethods.saveFile(DATARESUME, name+"_MetricsData", true);
 			return;
 		}
 		if (e.getSource() == clusterbt) {
@@ -183,12 +332,12 @@ public class Gui extends JFrame implements ActionListener {
 			return;
 		}
 		
-		
+				
 		if (e.getSource() == clusterCoefBt) {
 			Kmeans km2;
 			km2 = new Kmeans(1,bm.dimension, bm.imgTags);
 			ArrayList<Float> coef = new ArrayList<Float>();
-			int k=393; 
+			int k=1; 
 			
 			if(k==1)
 				FileMethods.saveFile("K;s2\n", "K_Variances_"+name, false);
@@ -205,39 +354,19 @@ public class Gui extends JFrame implements ActionListener {
 			while(k<=800);
 			
 			
-			//---------------------------------------------------------------------------------------kitar el 2k
-			
-			/*String  dataResults="";
-			
-			
-			dataResults+="K\tVariance\n";
-			int h = 1;
-			for (Iterator<Float> iterator = coef.iterator(); iterator.hasNext();++h) {
-				Float coefValue =  iterator.next();
-				FileMethods.saveFile(String.valueOf(h)+";"+String.valueOf(coefValue)+"\n", "K_Variances_"+name, true);
-				dataResults+= String.valueOf(h)+"\t"+String.valueOf(coefValue)+"\n";
-				
-			}*/
-			//System.out.println(dataResults);
-			//JTextArea  jtA = new JTextArea();
-			//jtA.setText(dataResults);
-			//JScrollPane scroll=new JScrollPane(jtA);
-			
-			//JOptionPane.showMessageDialog(this, scroll);
-			
+			/*			
 			try {
 				DrawLineChart.viewChart(coef,name);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-				
+				*/
 			
 			
 			return;
 		}
 		
-			
 		
 		
 		if (e.getSource() == originalButton) {

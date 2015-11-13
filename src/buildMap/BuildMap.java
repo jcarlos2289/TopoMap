@@ -14,6 +14,8 @@ public class BuildMap {
 	Map map;
 	int sequenceLength;
 	int dimension = 0;
+	int nClass =0;
+	int loopClose;
 	public void setThreshold1(double threshold1) {
 		this.threshold1 = threshold1;
 	}
@@ -34,17 +36,22 @@ public class BuildMap {
 		
 	}
 	
-	public void readTags (String base, double threshold, int seqLenght, String dataPath, int dim ) {
+	public void readTags (String base, double threshold, int seqLenght, String dataPath, int dim, int clas , int loop) {
 		String fileName;
 		FileReader fr=null;
 		BufferedReader br=null;
 		String line;
+		nClass = clas;
 		dimension = dim;
 		sequenceLength = seqLenght;
+		loopClose = loop;
 		// First, read the image coordinates files
 		double []xcoord, ycoord;
+		String[] cats;
 		xcoord= new double[sequenceLength+1];
 		ycoord= new double[sequenceLength+1];
+		cats=new String[sequenceLength+1];
+		
 		for (int i=0; i<sequenceLength+1; i++) {
 			xcoord[i]=ycoord[i]=-1;
 		}
@@ -60,6 +67,8 @@ public class BuildMap {
 				int i=Integer.parseInt(sp[0]);
 				xcoord[i]=Double.parseDouble(sp[1]);
 				ycoord[i]=Double.parseDouble(sp[2]);
+				cats[i]=sp[4];
+				
 			}
 		}
 		catch(Exception e) {
@@ -82,6 +91,7 @@ public class BuildMap {
 			try {
 				itags=new ImageTags(fileName);
 				itags.setThreshold((float)threshold);
+				itags.setCategory(cats[i]);
 				if (xcoord[i]!=-1) {
 					itags.setCoords(xcoord[i], ycoord[i]);
 				}
@@ -145,6 +155,8 @@ public class BuildMap {
 				auxNode=map.getNode(n);
 				if (auxNode!=currentNode) {
 					dist=auxNode.distance(imgTags.get(i));
+					//dist=auxNode.x2(auxNode.histoMean,imgTags.get(i));
+					//dist=auxNode.kullback(auxNode.histoMean,imgTags.get(i));
 					if (dist<minDist) {
 						minDist=dist;
 						auxNode2=auxNode;
@@ -152,8 +164,11 @@ public class BuildMap {
 				}
 			}
 			dist = currentNode.distance(imgTags.get(i));
+			//dist = currentNode.x2(currentNode.histoMean,imgTags.get(i));
+			//dist = currentNode.kullback(currentNode.histoMean,imgTags.get(i));
 			FileMethods.saveFile(String.valueOf(dist)+"\n","Distancias", true);	
 
+			
 			if (dist<threshold2) {
 				currentNode.add(imgTags.get(i));
 			}
@@ -171,60 +186,11 @@ public class BuildMap {
 					map.createEdge(auxNode, currentNode);
 				}
 			}
-			// If the distance of the current image is below the first threshold, it keeps it in the current node
-//			if (currentNode.distance(imgTags.get(i)) < threshold1) {
-//				currentNode.add(imgTags.get(i));
-//			}
-//			else {
-				// Check if it could be put in another node
-				//First, check it could be inserted in an adjacent node
-//				foundNode=false;
-//				for (Edge e:map.edges) {
-//					if (e.a==currentNode) {
-//						if (e.b.distance(imgTags.get(i))<threshold2) {
-//							currentNode=e.b;
-//							currentNode.add(imgTags.get(i));
-//							foundNode=true;
-//							break;
-//						}
-//					}
-//					if (e.b==currentNode) {
-//						if (e.a.distance(imgTags.get(i))<threshold2) {
-//							currentNode=e.a;
-//							currentNode.add(imgTags.get(i));
-//							foundNode=true;
-//							break;
-//						}
-//					}
-//				}
-//				if (!foundNode) {
-//					minDist=Double.MAX_VALUE;
-//					auxNode2=null;
-//					for (int n=0; n<map.getMapSize(); n++) {
-//						auxNode=map.getNode(n);
-//						if (auxNode!=currentNode) {
-//							dist=auxNode.distance(imgTags.get(i));
-//							if (dist<minDist) {
-//								minDist=dist;
-//								auxNode2=auxNode;
-//							}
-//						}
-//					}
-//					if (minDist<threshold3) {
-//						map.createEdge(currentNode, auxNode2);
-//						currentNode=auxNode2;
-//						currentNode.add(imgTags.get(i));
-//					}
-//					else {
-//						// Final decision: create a new node
-//						auxNode = currentNode;
-//						currentNode = map.createNode(imgTags.get(i));
-//						map.createEdge(auxNode, currentNode);
-//					}
-//				}
-//			}
+			
+			
+
 		}//end for
-		
+		//Calcular Metrica Aqui
 		
 		
 	}

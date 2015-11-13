@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
+//import org.jfree.data.category.CategoryDataset;
+//import org.jfree.data.category.DefaultCategoryDataset;
 
 import buildMap.Map.Edge;
 
@@ -27,6 +27,8 @@ public class Node {
 	HashMap<String, Float> histoStanDev;
 	HashMap<String, Float> histoMeanDev;
 	HashMap<String, Float> histoSumMeanDev;
+	//HashMap<String,Float> w;
+	//float wSum;
 
 	float nodeVariance;
 	boolean useHisto;
@@ -45,7 +47,9 @@ public class Node {
 			histoStanDev = new HashMap<String, Float>();
 			histoMeanDev = new HashMap<String, Float>();
 			histoSumMeanDev = new HashMap<String, Float>();
+			//w = new HashMap<String,Float>();
 			nodeVariance =0;
+			//wSum=0;
 
 		}
 		weights = ws;
@@ -334,6 +338,8 @@ public class Node {
 		
 		nodeVariance = 0;
 		
+		
+		
 		for (Entry<String, Float> e : histoVariance.entrySet()) {
 			nodeVariance += e.getValue();
 		}
@@ -378,10 +384,9 @@ public class Node {
 		String elem;
 		Set<String> hs1;
 		Iterator<String> iterator;
-		HashMap<String,Float> w = new HashMap<String,Float>();
-		float wSum = 0;
-		
-		//for
+			
+		HashMap<String, Float> w  =new HashMap<String,Float>();
+		float wSum=0;
 		for (Entry<String, Float> entry : histoStanDev.entrySet()) {
 			w.put(entry.getKey(),1-2* entry.getValue());
 			wSum += w.get(entry.getKey());
@@ -402,14 +407,7 @@ public class Node {
 		return (float) Math.sqrt(dist/wSum);
 	}
 	
-	//Efecutar un cambio de la manera de calcular la distancia al usar dist. Euclidiana
-	
-	
-	
-	
-	
-	
-	
+		
 	public double x2(HashMap<String, Float> histo, ImageTags t2) {
 		float dist = 0.0f;
 		String elem;
@@ -565,6 +563,47 @@ public class Node {
 		//System.out.println(text);
 		return text;
 	}
+	
+	public String countCategory(){
+		HashMap<String, Integer> datAux = new HashMap<String,Integer>();
+		int h = 0;
+		for (int i = 0; i < images.size(); ++i) {
+			ImageTags imagesAux = images.get(i);
+			
+			if(datAux.get(imagesAux.category)!=null){
+				h = datAux.get(imagesAux.category);
+				datAux.put(imagesAux.category, h+1);
+			}else
+				datAux.put(imagesAux.category, 1);
+						
+			}
+		
+		
+		String text ="<br>Category &nbsp;&nbsp; Amount<br>\n";
+		for(Entry<String, Integer> e : datAux.entrySet()){
+			text+=e.getKey() +" &nbsp;&nbsp; "+ String.valueOf(e.getValue())+" &nbsp;&nbsp; "+((e.getValue()/(float)images.size())*100) +"%<br>\n";
+		}
+		return text;
+	}
+	
+	public int getCategoryAmount(){
+		HashMap<String, Integer> datAux = new HashMap<String,Integer>();
+		int h = 0;
+		for (int i = 0; i < images.size(); ++i) {
+			ImageTags imagesAux = images.get(i);
+			
+			if(datAux.get(imagesAux.category)!=null){
+				h = datAux.get(imagesAux.category);
+				datAux.put(imagesAux.category, h+1);
+			}else
+				datAux.put(imagesAux.category, 1);
+						
+			}
+		
+		
+		return datAux.size();
+	}
+		
 	public String getTop10(){
 		String text = "<html>\n";
 		//order the histoMean
@@ -611,42 +650,31 @@ public class Node {
 		
 		text += "<table border=\"1\">";
 		text += "<tr> <th>#</th><th>ImageName</th><th>Top10 (%)</th></tr>";
-		
-		
+				
 		int g =1;
 		int acum = 0;
-		
-	
-		
-		for(Entry<String, Float> e : presenceData.entrySet()){
 			
+		for(Entry<String, Float> e : presenceData.entrySet()){
 			text += "<tr> <td>"+String.valueOf(g) +"</td><td>" 
 		                        + e.getKey() + "</td><td>"; 
 		                        if(e.getValue() > 6)
 		                        	text += "<b>" +String.valueOf((e.getValue()*10)) + "</b></td></tr>";
 		                        	else
 		                        		text += String.valueOf((e.getValue()*10)) + "</td></tr>";
-					            
-		                    
+		                   
 			++g;
 			acum += e.getValue();
 		}
 		
 		float top = acum/images.size() *10;
-		
-		text += "<tr> <td colspan = \"2\"> Node Top10</td><td><b>" + String.valueOf(top)+ "</b></td></tr>";
+				text += "<tr> <td colspan = \"2\"> Node Top10</td><td><b>" + String.valueOf(top)+ "</b></td></tr>";
 		text += "</table>";
 		text += "\n</html>";
-		
 		return text;
-		
-		
-		
-		
+				
 	}
 	
 	public ArrayList<String> getTop10Nodes(){
-	
 		//order the histoMean
 		ArrayList<String> mean10 = new ArrayList<String>();
 		LinkedHashMap<String, Float> sortedByValue = orderHashMap(histoMean, true);
@@ -657,17 +685,9 @@ public class Node {
 			mean10.add(e.getKey());
 			if(++h ==10) 
 				break;
-			
-		}
-		
-		
+			}
 		return mean10;
-		
-		
-		
-		
-	}
-	
+		}
 	
 	private float getTagPresence(ArrayList<String> pattern, ArrayList<String> surface ){
 		int found = 0;
@@ -710,7 +730,7 @@ public class Node {
 				
 	}
 	
-		public String getNodeInfo(ArrayList<Edge> edges, ArrayList<Node> nodes) {
+	public String getNodeInfo(ArrayList<Edge> edges, ArrayList<Node> nodes) {
 		String text = "<html>\n";
 		String[] split;
 
@@ -724,7 +744,7 @@ public class Node {
 		}
 		for (ImageTags img : images) {
 			split = img.imageName.split("/");
-			text += split[split.length - 1] + " " + img.xcoord + " " + img.ycoord + "<br>";
+			text += split[split.length - 1] + " " + img.xcoord + " " + img.ycoord + ""+img.category+ "<br>";
 		}
 
 		// imprimir desviacion standard y varianza
@@ -777,7 +797,7 @@ public class Node {
 		return text;
 
 	}
-	
+	/*
 	public CategoryDataset getDataset(){
 		String elem;
 		//String text,  auxS;
@@ -839,12 +859,11 @@ public class Node {
 		for (int i = 0; i < histo.size(); i++) {
 			
 			  dataset.addValue(histo.get(i).value*1000,histo.get(i).name , category);
-			}*/
+			//}
 		
        return dataset;
-	}
-	
-			
+	}*/
+				
 	public String getNodesContent() {
 		String nodeInfo = "";
 		//Verificar lo que imprime
@@ -865,6 +884,234 @@ public class Node {
 		}
 
 		return nodeInfo;
+	}
+		
+	//A
+	public float getQCat_A(){
+		
+		float A  =0;
+		int categoriesCant= getCategoryAmount();
+		if (categoriesCant == 1){
+			A = 0;
+		}else{
+		HashMap<String, Float> datAux = new HashMap<String,Float>();
+		float h = 0;
+		for (int i = 0; i < images.size(); ++i) {
+			ImageTags imagesAux = images.get(i);
+			
+			if(datAux.get(imagesAux.category)!=null){
+				h = datAux.get(imagesAux.category);
+				datAux.put(imagesAux.category, h+1);
+			}else
+				datAux.put(imagesAux.category, (float) 1.0);
+						
+			}
+		
+		HashMap<String, Float> hm = orderHashMap(datAux, true);
+		float mayor=0, acum=0;
+		int y = 0;
+		for(Entry<String, Float> e : hm.entrySet()){
+			if(y ==0)
+				mayor = e.getValue();
+			    acum +=e.getValue()/mayor;
+				++y;
+		}
+		acum--;
+		A = acum/(categoriesCant-1);
+		
+		//A = (acum)/(float)images.size();
+		
+		}
+		
+		//A = ((float)categoriesCant)/images.size();
+		return A;
+	}
+	
+	//B
+	public float getQConnAvg_B(ArrayList<Edge> edges){
+		float B = 0;
+		int edgesCant=0;
+		for (Edge e : edges) {
+			if (e.a == this){
+				++edgesCant;
+			}
+			else if (e.b == this){
+				++edgesCant;
+			}
+		}
+		B= edgesCant;
+		return B;
+		
+	}
+	
+	//D
+	public float getQImgDev_D(){
+		float D = 0;
+		
+		
+		ImageTags imagesAux2;
+		imagesAux2 = images.get(0);
+		
+		
+		float xAcum=0, yAcum=0, xMean, yMean, xDev, yDev;
+		for (int i = 0; i < images.size(); ++i) {
+			imagesAux2 = images.get(i);
+			xAcum+=imagesAux2.xcoord;
+			yAcum+=imagesAux2.ycoord;
+			
+		}
+			
+		xMean = xAcum/images.size();
+		yMean = yAcum/images.size();
+		
+		xAcum =0;
+		yAcum = 0;
+		
+		for (int i = 0; i < images.size(); ++i) {
+			xAcum +=Math.pow(imagesAux2.xcoord-xMean, 2)/images.size();
+			yAcum +=Math.pow(imagesAux2.ycoord-yMean, 2)/images.size();
+		}
+		
+		xDev= (float) Math.sqrt(xAcum);
+		yDev= (float) Math.sqrt(yAcum);
+		D =  (float) Math.sqrt(Math.pow(xDev, 2)+ Math.pow(yDev, 2));
+		
+		
+		/*//Variancia de la media de la distancia de cada imagen al nodo
+		float acumDist2=0;
+		float distMean=0;
+		for (int i = 0; i < images.size(); ++i) {
+			imagesAux2 = images.get(i);
+			acumDist2 += Math.sqrt(Math.pow((this.representative.xcoord-imagesAux2.xcoord),2) +Math.pow((this.representative.ycoord-imagesAux2.ycoord),2));
+		}
+		distMean = acumDist2 /images.size();
+		
+		acumDist2 =0;
+		for (int i = 0; i < images.size(); ++i) {
+			imagesAux2 = images.get(i);
+			acumDist2 += Math.pow(Math.sqrt(Math.pow((this.representative.xcoord-imagesAux2.xcoord),2) +Math.pow((this.representative.ycoord-imagesAux2.ycoord),2))-distMean,2)/images.size();
+		}
+		
+		D= (float) Math.sqrt(acumDist2);	*/	
+		
+		return D;
+	}
+			
+	public String[] getNodeMetric(ArrayList<Edge> edges, ArrayList<Node> nodes, int nClass,float height, float width){
+		int categoriesCant= getCategoryAmount();
+		float A  =0;
+		float B = 0;
+		float C = 0;
+		float D = 0;
+		float E = 0;
+		int edgesCant=0;
+		//A
+		A = ((float)categoriesCant)/images.size();
+		
+		//B y C   C->Afuera
+		float acumDist=0;
+		
+		for (Edge e : edges) {
+			if (e.a == this){
+				++edgesCant;
+				acumDist += Math.sqrt(Math.pow((this.representative.xcoord-e.b.representative.xcoord),2) +Math.pow((this.representative.ycoord-e.b.representative.ycoord),2));
+				//nodes.get(nodes.indexOf(e.a)).representative.xcoord;
+			}
+			else if (e.b == this){
+				++edgesCant;
+				acumDist += Math.sqrt(Math.pow((this.representative.xcoord-e.a.representative.xcoord),2) +Math.pow((this.representative.ycoord-e.a.representative.ycoord),2));
+			}
+		}
+		B = edgesCant;
+		C = acumDist/B;
+		
+		
+		
+		//D
+		ImageTags imagesAux2;
+		imagesAux2 = images.get(0);
+		
+		float acumDist2=0;
+		float distMean=0;
+		for (int i = 0; i < images.size(); ++i) {
+			imagesAux2 = images.get(i);
+			acumDist2 += Math.sqrt(Math.pow((this.representative.xcoord-imagesAux2.xcoord),2) +Math.pow((this.representative.ycoord-imagesAux2.ycoord),2));
+		}
+		distMean = acumDist2 /images.size();
+		
+		acumDist2 =0;
+		for (int i = 0; i < images.size(); ++i) {
+			imagesAux2 = images.get(i);
+			acumDist2 += Math.pow(Math.sqrt(Math.pow((this.representative.xcoord-imagesAux2.xcoord),2) +Math.pow((this.representative.ycoord-imagesAux2.ycoord),2))-distMean,2)/images.size();
+		}
+		
+		D= (float) Math.sqrt(acumDist2);		
+		
+		//Afuera
+		//E		
+		//float acumDist3=0;
+		float xAcum=0, yAcum=0, xMean, yMean, xDev, yDev;
+		for (Node node : nodes) {
+			//acumDist3 += Math.sqrt(Math.pow((this.representative.xcoord-node.representative.xcoord),2) +Math.pow((this.representative.ycoord-node.representative.ycoord),2));
+			xAcum+=node.representative.xcoord;
+			yAcum+=node.representative.ycoord;
+			
+		}
+			
+		xMean = xAcum/nodes.size();
+		yMean = yAcum/nodes.size();
+		
+		xAcum =0;
+		yAcum = 0;
+		
+		for(Node node:nodes){
+			xAcum +=Math.pow(node.representative.xcoord-xMean, 2)/nodes.size();
+			yAcum  +=Math.pow(node.representative.ycoord-yMean, 2)/nodes.size();
+		}
+		
+		xDev= (float) Math.sqrt(xAcum);
+		yDev= (float) Math.sqrt(yAcum);
+		E =  (float) Math.sqrt(Math.pow(xDev, 2)+ Math.pow(yDev, 2));
+		
+		float dmax = (float) Math.sqrt(Math.pow(width, 2)+ Math.pow(height, 2));
+		
+		
+		//System.out.println("Dmax= "+dmax);
+		//System.out.println("Width= "+width);
+		//System.out.println("Height= "+height);
+		
+		float wA=1, wB=1, wC=1, wD=1, wE =1;
+		
+		wA=20;
+		wB=20;
+		wC=20;
+		wD=20;
+		wE=20;
+		
+		//float metrica = wA*(nClass-A) +wB*(nodes.size()-1-B)+wC*(dmax-C)+wD*(dmax/2 -D) + wE*(E/dmax/2);
+		float metrica = wA*(1-A)/(float)1 +wB*(float)(nodes.size()-1-B)/(nodes.size()-2)+wC*(dmax-C)/dmax+wD*(dmax/2 -D)/(dmax/2) + wE*(E)/(dmax/2);
+		
+		String texto = "<tr><td>X</td><td>"+A+"</td><td>"+B+"</td><td>"+C+"</td><td>"+D+"</td><td><"+xDev+"----"+yDev+"</td><td>"+metrica+"</td></tr>";
+		
+		String valores[]= new String[2];
+		valores[0]=texto;
+		valores[1]= String.valueOf(metrica);
+		
+		return valores;
+		
+		
+	}
+	
+	public String printNodeMet(int n, ArrayList<Edge> edges){
+		String text="";
+		
+		float a,b,d;
+		a = getQCat_A();
+		b = getQConnAvg_B(edges);
+		d= getQImgDev_D();
+		text = "<td>"+n+"</td><td>"+a+"</td><td>"+b+"</td><td>"+d+"</td>";
+		
+		return text;
 	}
 
 	class HistoOrdered implements Comparable<HistoOrdered> {

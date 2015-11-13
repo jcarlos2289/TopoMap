@@ -1,5 +1,5 @@
 package buildMap;
-
+/*
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
-
+/*
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
@@ -19,11 +19,11 @@ import org.jfree.chart.plot.XYPlot;
 
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.data.xy.XYSeriesCollection;*/
 
 
 public class DrawLineChart {
-
+/*
 	private static XYDataset fillDataset(ArrayList<Float> data) {
 		// se declaran las series y se llenan los datos
 		XYSeries sIngresos = new XYSeries("σ²");
@@ -69,7 +69,7 @@ public class DrawLineChart {
 		
 	}
 	
-	
+	*/
 	
 
 }// -->fin clase
