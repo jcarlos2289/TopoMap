@@ -266,7 +266,7 @@ public class Map {
 		
 		float E=0, C=0;
 	
-		float wA=20, wB=20, wC=20, wD=20, wE =20;
+		float wA=0, wB=25, wC=25, wD=25, wE =25;
 		
 		//Normalized Values 
 		NodeCoef AvgCoefNorm = normalize(AvgCoef, dmax);	

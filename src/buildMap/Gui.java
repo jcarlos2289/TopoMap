@@ -257,16 +257,16 @@ public class Gui extends JFrame implements ActionListener {
 		}
 		g.setVisible(true);
 		g.toFront();
-		
+	
 		String DATARESUME ;
 		
 		/*if (true)
 			DATARESUME="Th1;Th2;CN;Nodes;Edges;Metric\n";
 		else
 			DATARESUME="";*/
-		/*
+	
 		float incremento = (float) 0.002;
-		float th1 = (float) 0.006;
+		float th1 = (float) 0.002;
 		float th2 = (float) 0.01;
 		int vuelta=1;
 		
@@ -278,11 +278,12 @@ public class Gui extends JFrame implements ActionListener {
         simbol.setDecimalSeparator('.');
         DecimalFormat formateador = new DecimalFormat("####.######", simbol);
         
-		for (int i = 0; i <=10; i++) {
-			for (int j = 0; j <=25; j++) {
+		for (int i = 0; i <15; i++) {
+			for (int j = 0; j <2; j++) {
 				g.bm.setThreshold1(th1);
 				g.bm.setThreshold2(th2);
 				g.bm.buildMap();
+				System.out.printf("i= %d\tj= %d\t Ciclo= %d\t th1= %.4f\t th2= %.4f\n", i,j,vuelta, th1, th2);
 				th1+=incremento;
 				
 						//String.format("%,6f",g.bm.threshold1)	
@@ -299,15 +300,23 @@ public class Gui extends JFrame implements ActionListener {
 						+g.bm.map.coefE+ ";"	
 						+metric+"\n";
 				FileMethods.saveFile(DATARESUME, g.name+"_MetricsData", true);
-				System.out.printf("i= %d\tj= %d\t Ciclo= %d\n", i,j,vuelta);
+				//System.out.printf("i= %d\tj= %d\t Ciclo= %d\n", i,j,vuelta);
 				++vuelta;
 				}
 			th2+=0.001;
-			th1=(float) 0.006;
+			th1=(float) 0.002;
 		}
-		g.setVisible(false);*/
+		g.setVisible(false);
+		g.dispose();
 		
 		
+	/*	
+		System.out.println("Width-X= "+g.cm.getMaxWidth());
+		System.out.println("Heigth-Y= "+g.cm.getMaxHeight());
+		System.out.println("DMAX= " +g.cm.MaxDistance());
+		
+		g.dispose();
+		*/
 		
 	}
 
