@@ -8,12 +8,16 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -470,4 +474,46 @@ float newX=0, newY=0;
 		
 		
 	}
+	
+	
+	public void createImage(String name) {
+
+		JPanel panel = this;
+		
+		
+		
+		 File miDir = new File(".");
+	     String c = miDir.getAbsolutePath();
+
+	     //elimino el punto (.) nombre del archivo(virtual) que cree para obtener la ruta de la carpeta del proyecto
+	     String ruta = c.substring(0, c.length() - 1);
+         ruta += "resultados/" + name.trim() + ".png";
+		
+		File fichero = new File(ruta);
+	    int w = panel.getWidth();
+	    int h = panel.getHeight();
+	    
+	    w= img2.getIconWidth();
+	    h= img2.getIconHeight();
+	    
+	    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+	    Graphics2D g = bi.createGraphics();
+	    panel.paint(g);
+	    
+	    try {
+			ImageIO.write(bi, "png", fichero);
+			System.out.println("Image " +name +" Saved");
+		} catch (IOException e) {
+			System.out.println("Writing Error");
+		}
+	    
+	    
+	    
+	    
+	    
+	}
+	
+	
+	
+	
 }

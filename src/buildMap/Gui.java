@@ -3,18 +3,25 @@ package buildMap;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 //import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -38,6 +45,11 @@ public class Gui extends JFrame implements ActionListener {
 	Kmeans km;
 	String name ;
 	
+	 JMenu jmOperations, jmShows;
+	 JMenuItem jmiGetCluster, jmiGenCluster, jmiCapture, jmiGenMap;
+     JCheckBoxMenuItem originalCB, graphCB, backCB, showNodesCB, clustersCB;
+	
+	
 	public Gui() {
 		threshold1 = 0.022;
 		threshold2 = 0.049;
@@ -47,8 +59,11 @@ public class Gui extends JFrame implements ActionListener {
 		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegePlaces_AlexNet/NewCollege_",0.000000001,8127,"output.data",205,1,2000000);
 		//name = "NewCollege_PlacesAlexNet";
 		
-		bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollege_HybridAlexNet/NewCollege_",0.000000001,8127,"output.data",1183,1,2000000);
-		name = "NewCollege_HybridAlexNet";
+		//bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollege_HybridAlexNet/NewCollege_",0.000000001,8127,"output.data",1183,1,2000000);
+		//name = "NewCollege_HybridAlexNet";
+		
+		bm.readTags("/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegeSeq1_HybridAlexNet/NewCollege_",0.000000001,1981,"/home/jcarlos2289/Documentos/tagsNewCollege/NewCollegeSeq1.data",1183,1,2000000);
+		name = "NewCollegeSeq1_HybridAlexNet";
 
 		// bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
 		//bm.readTags("/home/jcarlos2289/workspacejava/tagsNewCollege/NewCollegePlaces/NewCollege_",0.000000001,8127);
@@ -165,41 +180,110 @@ public class Gui extends JFrame implements ActionListener {
 	}
 
 	public JPanel getToolBar() {
+		
+		
+		
+		 jmOperations = new JMenu();
+	        //jmOperations.addActionListener(this);
+	        jmOperations.setText("Operations");
+
+	        jmiGenMap = new JMenuItem("Gen Map");
+	        jmiGenMap.addActionListener(this);
+	        jmOperations.add(jmiGenMap);
+
+	        jmiGetCluster = new JMenuItem();
+	        jmiGetCluster.setText("Get K Cluster");
+	        jmiGetCluster.addActionListener(this);
+	        jmOperations.add(jmiGetCluster);
+
+	        jmiGenCluster = new JMenuItem();
+	        jmiGenCluster.setText("Gen Cluster");
+	        jmiGenCluster.addActionListener(this);
+	        jmOperations.add(jmiGenCluster);
+
+	        jmiCapture = new JMenuItem("Capture Screen");
+	        jmiCapture.addActionListener(this);
+	        jmiCapture.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+	        jmOperations.add(jmiCapture);
+
+	        jmShows = new JMenu("View");
+	        
+	        originalCB= new javax.swing.JCheckBoxMenuItem("OriginalMap");
+	        originalCB.setSelected(true);
+	        originalCB.addActionListener(this);
+	                
+	        graphCB = new javax.swing.JCheckBoxMenuItem("Graph");
+	        graphCB.setSelected(true);
+	        graphCB.setEnabled(mapGenerated);
+	        
+	        
+	        backCB = new javax.swing.JCheckBoxMenuItem("Background Image");
+	        backCB.setSelected(true);
+	        backCB.addActionListener(this);
+	        
+	           
+	        showNodesCB = new javax.swing.JCheckBoxMenuItem("Show Nodes");
+	        showNodesCB.setSelected(false);
+	        showNodesCB.setEnabled(false);
+	        showNodesCB.addActionListener(this);
+	        
+	        
+	        clustersCB =new JCheckBoxMenuItem("Clusters");
+	        clustersCB.addActionListener(this);
+	        clustersCB.setSelected(false);
+			clustersCB.setEnabled(false);
+			
+	                
+	        jmShows.add(originalCB);
+	        jmShows.add(graphCB);
+	        jmShows.add(backCB);
+	        jmShows.add(showNodesCB);
+	        jmShows.add(clustersCB);
+	        
+	        //JPanel jp2 = new JPanel();
+	        JMenuBar jMenuBar1 = new JMenuBar();
+	        jMenuBar1.add(jmOperations);
+	        jMenuBar1.add(jmShows);
+
+	        this.setJMenuBar(jMenuBar1);
+		
+		
+		
 		JPanel jp = new JPanel();
 		jp.setSize(width, 100);
 		jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
 		jp.setAlignmentX(LEFT_ALIGNMENT);
 		process = new JButton("Gen Map");
 		process.addActionListener(this);
-		jp.add(process);
+		//jp.add(process);
 
 		clusterbt = new JButton("Gen Clus");
 		clusterbt.addActionListener(this);
-		jp.add(clusterbt);
+		//jp.add(clusterbt);
 		
 		clusterCoefBt = new JButton("ClusCoef");
 		clusterCoefBt.addActionListener(this);
-		jp.add(clusterCoefBt);
+		//jp.add(clusterCoefBt);
 
 		originalButton = new JCheckBox("Original Map");
 		originalButton.setSelected(true);
 		originalButton.addActionListener(this);
-		jp.add(originalButton);
+		//jp.add(originalButton);
 		graphButton = new JCheckBox("Graph");
 		graphButton.setSelected(true);
 		graphButton.setEnabled(mapGenerated);
 		graphButton.addActionListener(this);
-		jp.add(graphButton);
+		//jp.add(graphButton);
 		backButton = new JCheckBox("BackImage");
 		backButton.setSelected(true);
 		backButton.addActionListener(this);
-		jp.add(backButton);
+		//jp.add(backButton);
 		
 		clusters = new JCheckBox("ShowCluster");
 		clusters.setSelected(false);
 		clusters.setEnabled(false);
 		clusters.addActionListener(this);
-		jp.add(clusters);
+		//jp.add(clusters);
 		
 		JLabel lab1 = new JLabel("Threshold1");
 		jp.add(lab1);
@@ -220,7 +304,7 @@ public class Gui extends JFrame implements ActionListener {
 		showNodes.setSelected(false);
 		showNodes.setEnabled(false);
 		showNodes.addActionListener(this);
-		jp.add(showNodes);
+		//jp.add(showNodes);
 		String[] aux = {"Select Node"};
 		nodes = new JComboBox<String>(aux);
 		nodes.addActionListener(this);
@@ -450,6 +534,113 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			return;
 		}
+		
+		
+		
+
+		
+		   if (e.getSource() == originalCB) {
+	            original = originalCB.isSelected();
+	            cm.repaint();
+	            return;
+	        }
+	        if (e.getSource() == graphCB) {
+	            showMap = graphCB.isSelected();
+	            cm.repaint();
+	            return;
+	        }
+	        if (e.getSource() == backCB) {
+	            background = backCB.isSelected();
+	            cm.repaint();
+	            return;
+	        }
+	        
+	         if (e.getSource() == showNodesCB) {
+	            nodesMode = showNodesCB.isSelected();
+	            selectedNode = -1;
+	            nodes.setEnabled(true);
+	            cm.repaint();
+	            return;
+	        }
+	         
+	     	if (e.getSource() == clustersCB) {
+				showCluster = clustersCB.isSelected();
+				cm.repaint();
+				return;
+			}
+	     	         
+	          if (e.getSource() == jmiGenMap) {
+	        	graphCB.setEnabled(false);
+	  			showNodesCB.setEnabled(false);
+	  			bm.buildMap();
+	  			graphCB.setEnabled(true);
+	  			showNodesCB.setEnabled(true);
+	  			genComboNodes();
+	  			mapGenerated = true;
+	  			cm.repaint();
+	  			cm.showNodeDetails();
+	  			cm.showMapInfo();
+	            return;
+	        }
+	          
+	          if (e.getSource() == jmiCapture) {
+	        	  Date date = new Date();
+	        	  DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+	        	  String imgName = name+"_"+bm.threshold1+"_"+bm.threshold2+"_"+hourdateFormat.format(date);
+		  			cm.createImage(imgName);
+		  			return;
+		  		}
+	          
+	          if (e.getSource() == jmiGenCluster) {
+	  		    // Kmeans
+	  			int k =Integer.parseInt( JOptionPane.showInputDialog("How many clusters?","4"));
+	  			km= new Kmeans(k, bm.dimension, bm.imgTags);
+	  			km.findMeans();
+	  			//mapGenerated = false;
+	  			showCluster=true;
+	  			clustersCB.setEnabled(true);
+	  			clustersCB.setSelected(true);
+	  			cm.repaint();
+	  			return;
+	  		}
+	  			  				
+	  		if (e.getSource() == jmiGetCluster) {
+	  			Kmeans km2;
+	  			km2 = new Kmeans(1,bm.dimension, bm.imgTags);
+	  			ArrayList<Float> coef = new ArrayList<Float>();
+	  			int k=1; 
+	  			
+	  			if(k==1)
+	  				FileMethods.saveFile("K;s2\n", "K_Variances_"+name, false);
+	  			
+	  			
+	  			do {
+	  				km2.setK(k);
+	  				Float coefValue =km2.findMeansCoef();
+	  				coef.add(coefValue); 
+	  				FileMethods.saveFile(String.valueOf(k)+";"+String.valueOf(coefValue)+"\n", "K_Variances_"+name, true);
+	  				++k;
+	  				if ((k%100)==0) System.out.println("K="+k);
+	  			}
+	  			while(k<=800);
+	  			
+	  		
+	  			
+	  			return;
+	  		}
+	          
+	        
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
 }
